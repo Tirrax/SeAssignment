@@ -58,7 +58,7 @@ namespace SEWebiste_OwenAttard.Models
     public class LoginModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
 
         [Required]
@@ -68,6 +68,8 @@ namespace SEWebiste_OwenAttard.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public bool ShowErrorBox { get; set; }
     }
 
     public class RegisterModel
@@ -86,6 +88,39 @@ namespace SEWebiste_OwenAttard.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+
+        [Required]
+        [Display(Name = "E-mail")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Address")]
+        public string Addres { get; set; }
+
+        [Required]
+        [Display(Name = "Town name")]
+        public string TownName { get; set; }
+
+        [Required]
+        [Display(Name = "Mobile Number")]
+        public string MobileNum { get; set; }
+
+        [Display(Name = "Countries")]
+        public string SelectedCountryID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> Countries { get; set; }
+
+        [Display(Name = "Facebook profile URL")]
+        public string FBUrl { get; set; }
+
     }
 
     public class ExternalLogin

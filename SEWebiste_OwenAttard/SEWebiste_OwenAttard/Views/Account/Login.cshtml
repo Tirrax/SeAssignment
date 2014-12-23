@@ -4,46 +4,87 @@
     ViewBag.Title = "Log in";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
+<script type="text/javascript">
+    $(document).ready(function () {
+     
+        $('#btnCreate').click(function (e)
+      {
+          location.href = '@Url.Content("~/Account/Register/")';
+      });
 
-<section id="loginForm">
-<h2>Use a local account to log in.</h2>
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+    });
+</script>
 
-    <fieldset>
-        <legend>Log in Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </li>
-            <li>
-                @Html.CheckBoxFor(m => m.RememberMe)
-                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
-            </li>
-        </ol>
-        <input type="submit" value="Log in" />
-    </fieldset>
-    <p>
-        @Html.ActionLink("Register", "Register") if you don't have an account.
-    </p>
-}
-</section>
 
-<section class="social" id="socialLoginForm">
-    <h2>Use another service to log in.</h2>
-    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
-</section>
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
+    <li class="active">Login</li>
+</ul>
+<h3>Login</h3>
+<hr class="soft" />
+
+<div class="row">
+    <div class="span4">
+        <div class="well">
+            <h5>CREATE YOUR ACCOUNT</h5>
+            <br />
+            <div class="controls">
+                <button type="submit" id='btnCreate' class="btn block">Create Your Account</button>
+            </div>
+        </div>
+    </div>
+    <div class="span1">&nbsp;</div>
+    <div class="span4">
+        <div class="well">
+            <h5>ALREADY REGISTERED?</h5>
+            @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+            {
+                @Html.AntiForgeryToken()
+
+                if (ViewData.Model != null && ViewData.Model.ShowErrorBox)
+                {
+                <div class="alert alert-block alert-error fade in">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+
+                    @Html.ValidationSummary(true)
+
+                </div>
+                }
+
+                <div class="control-group">
+                    <label class="control-label">Username</label>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.UserName, new { @placeholder = "Username" })                        
+                    </div>
+                    @Html.ValidationMessageFor(m => m.UserName, "", new { @style = "color: red" } )
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Password</label>
+                    <div class="controls">
+                        @Html.PasswordFor(m => m.Password, new { @placeholder = "Password" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color: red" } )
+                    
+                </div>
+                
+                <div class="control-group">
+                    <div class="controls">
+                       <label class="control-label">@Html.CheckBoxFor(m => m.RememberMe)
+                       Remember me?</label>
+                    </div>    
+                </div>
+                
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn">Sign in</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

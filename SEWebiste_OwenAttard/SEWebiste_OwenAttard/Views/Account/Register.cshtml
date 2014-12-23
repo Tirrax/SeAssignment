@@ -3,35 +3,86 @@
     ViewBag.Title = "Register";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
-</hgroup>
 
-@using (Html.BeginForm()) {
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
+    <li class="active">Registration</li>
+</ul>
+<h3>Registration</h3>
+<div class="well">
+
+    @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
 
-    <fieldset>
-        <legend>Registration Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
-            </li>
-        </ol>
-        <input type="submit" value="Register" />
-    </fieldset>
-}
+        <fieldset class="form-horizontal">
+            <h4>Information</h4>
+            <div class="control-group">
+                <label class="control-label">Username<sup>*</sup></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.UserName, new { @placeholder = "Username" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" >Password<sup>*</sup></label>
+                <div class="controls">
+                    @Html.PasswordFor(m => m.Password, new { @placeholder = "Password" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" >Confirm Password<sup>*</sup></label>
+                <div class="controls">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Confirm password" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" >Email <sup>*</sup></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" >First Name<sup>*</sup></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.FirstName, new { @placeholder = "First Name" })
+                </div>
+            </div>
+        
+            <div class="control-group">
+                <label class="control-label" >Last Name<sup>*</sup></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.LastName, new { @placeholder = "Last Name" })
+                </div>
+            </div>
+        
+            <div class="control-group">
+                <label class="control-label" >Mobile<sup>*</sup></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.MobileNum, new { @placeholder = "Mobile" })
+                </div>
+            </div>
 
+            <div class="control-group">
+                <label class="control-label" >Address<sup>*</sup></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Addres, new { @placeholder = "Address" })
+                </div>
+            </div>
+        
+            <p><sup>*</sup>Required field	</p>
+	
+            <div class="control-group">
+                <div class="controls">
+                    <input type="hidden" name="email_create" value="1">
+                    <input type="hidden" name="is_new_customer" value="1">
+                    <input class="btn btn-large btn-success" type="submit" value="Register" />
+                </div>
+            </div>	
+        </fieldset>
+}
+    
+    
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
