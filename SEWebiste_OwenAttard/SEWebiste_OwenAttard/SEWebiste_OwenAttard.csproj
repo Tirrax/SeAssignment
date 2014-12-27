@@ -498,6 +498,7 @@
     <Content Include="~PSD\Bootshop-Home.psd" />
     <Content Include="Views\Products\ProductsDisplay.cshtml" />
     <Content Include="Views\Products\ProductDetail.cshtml" />
+    <Content Include="Views\Products\ShoppingCart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

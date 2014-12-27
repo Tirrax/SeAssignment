@@ -10,6 +10,7 @@ using SEWebiste_OwenAttard.Models;
 
 namespace SEWebiste_OwenAttard.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         //
@@ -73,11 +74,14 @@ namespace SEWebiste_OwenAttard.Controllers
         [AllowAnonymous]
         public JsonResult GetCart()
         {
-            if (!User.Identity.IsAuthenticated)
-                return null;
+            int count = 0;
 
-            ShoppingCartBL ShopServ = new ShoppingCartBL();
-            int count = ShopServ.GetShoppingCartItemCount(User.Identity.Name);
+            if (User.Identity.IsAuthenticated)
+            {
+                ShoppingCartBL ShopServ = new ShoppingCartBL();
+                count = ShopServ.GetShoppingCartItemCount(User.Identity.Name);
+            }
+
             return Json(new { result = count }, JsonRequestBehavior.AllowGet);
         }
 
