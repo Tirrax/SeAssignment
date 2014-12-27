@@ -1,0 +1,9 @@
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\BL\obj\Debug\BL.csprojResolveAssemblyReference.cache
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\BL\bin\Debug\BL.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\BL\bin\Debug\BL.pdb
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\BL\bin\Debug\Common.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\BL\bin\Debug\Repository.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\BL\bin\Debug\Common.pdb
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\BL\bin\Debug\Repository.pdb
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\BL\obj\Debug\BL.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\BL\obj\Debug\BL.pdb

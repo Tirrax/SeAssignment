@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DBTradersMarketModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DBTradersMarketModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="DBTradersMarketModelStoreContainer">
           <EntitySet Name="Categories" EntityType="DBTradersMarketModel.Store.Categories" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Menus" EntityType="DBTradersMarketModel.Store.Menus" store:Type="Tables" Schema="dbo" />
@@ -149,9 +149,6 @@
           </Key>
           <Property Name="Username" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="Password" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="Pin" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="Code" Type="varchar" Nullable="false" MaxLength="30" />
-          <Property Name="LastCodeDate" Type="datetime" Nullable="false" />
           <Property Name="Email" Type="varchar" Nullable="false" MaxLength="80" />
           <Property Name="FirstName" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="LastName" Type="varchar" Nullable="false" MaxLength="50" />
@@ -293,8 +290,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DBTradersMarketModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -431,9 +427,6 @@
           </Key>
           <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="Pin" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="30" Unicode="false" FixedLength="false" />
-          <Property Name="LastCodeDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="80" Unicode="false" FixedLength="false" />
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
@@ -620,9 +613,6 @@
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Pin" ColumnName="Pin" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="LastCodeDate" ColumnName="LastCodeDate" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />

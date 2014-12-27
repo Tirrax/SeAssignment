@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEWebiste_OwenAttard", "SEW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{8A2C0975-2C06-43A3-BE06-F8AA6B514CCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{F9B853AA-F964-47F1-A1B0-BCD534AACC4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "Repository\DataAccess.csproj", "{F9B853AA-F964-47F1-A1B0-BCD534AACC4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{D17D436D-4126-48EB-B4C3-A03CB5573D49}"
 EndProject

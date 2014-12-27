@@ -1,0 +1,51 @@
+﻿@model SEWebiste_OwenAttard.Models.ProductDisplayModel
+@{
+    ViewBag.Title = "ProductsDisplay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <ul class="breadcrumb">
+		<li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
+		<li class="active">@Model.CatName</li>
+    </ul>
+	<h3>@Model.CatName</h3>	
+	<hr class="soft"/>
+	 
+<div id="myTab" class="pull-right">
+ <a href="#listView" data-toggle="tab"><span class="btn btn-large btn-primary"><i class="icon-list"></i></span></a>
+</div>
+<br class="clr"/>
+<br />
+
+<div class="tab-content">
+    <div class="tab-pane active" id="listView">
+        
+        @foreach (SEWebiste_OwenAttard.Models.ProductModels curModel in Model.productModels)
+        {
+            <hr class="soft"/>
+            <div class="row">	  
+                <div class="span2">
+                    <img src="@curModel.ImgPath" alt=""/>
+                </div>
+                <div class="span4">
+                    <h3>@curModel.Name</h3>				
+                    <hr class="soft"/>
+                    <p>
+                        @curModel.Desc
+                    </p>
+                    <a class="btn btn-small pull-right" href="/Products/ProductDetail/@curModel.ID">View Details</a>
+                    <br class="clr"/>
+                </div>
+                <div class="span3 alignR">
+                    <form class="form-horizontal qtyFrm">
+                        <h3> €@curModel.price</h3>
+                        <a href="product_details.html" class="btn btn-large btn-primary"> Add to <i class=" icon-shopping-cart"></i></a>
+                    </form>
+                </div>
+            </div>     
+        }
+
+        <hr class="soft"/>
+        
+    </div>
+</div>

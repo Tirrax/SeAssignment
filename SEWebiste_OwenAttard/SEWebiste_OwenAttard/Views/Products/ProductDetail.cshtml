@@ -1,0 +1,77 @@
+﻿@model SEWebiste_OwenAttard.Models.SingleProductDisplayModel
+
+@{
+    ViewBag.Title = "ProductDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ul class="breadcrumb">
+<li>@Html.ActionLink("Home", "index", "Home")<span class="divider">/</span></li>
+<li><a href="/Products/ProductsDisplay/@Model.CatId">@Model.CatName</a> <span class="divider">/</span></li>
+<li class="active">@Model.productModels.Name</li>
+</ul>	
+<div class="row">	  
+    <div id="gallery" class="span3">
+        <a href="@Model.productModels.ImgPath" title="@Model.productModels.Name">
+            <img src="@Model.productModels.ImgPath" style="width:100%" alt="Fujifilm FinePix S2950 Digital Camera"/>
+        </a>
+    </div>
+
+    <div class="span6">
+        <h3>@Model.productModels.Name</h3>
+        <hr class="soft"/>
+        <form class="form-horizontal qtyFrm">
+            <div class="control-group">
+                <label class="control-label"><span>€@Model.productModels.price</span></label>
+                <div class="controls">
+                    <input type="number" class="span1" placeholder="Qty."/>
+                    <button class="btn btn-large btn-primary pull-right"> Add to cart <i class=" icon-shopping-cart"></i></button>
+                </div>
+            </div>
+        </form>
+				
+        <hr class="soft"/>
+        <h4>@Model.productModels.Qty items in stock</h4>
+        <hr class="soft clr"/>
+    </div>
+
+    <div class="span9">
+        <ul id="productDetail" class="nav nav-tabs">
+            <li class="active"><a href="#home" data-toggle="tab">Product Details</a></li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="home">
+                <h4>Product Information</h4>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr class="techSpecRow"><th colspan="2">Product Details</th></tr>
+
+                        @{
+                 
+                            string[] txt = Model.productModels.Desc.Split(';');
+                            for (int i = 0; i < txt.Count(); i++)
+                            {
+                                <tr class="techSpecRow">
+                                    <td class="techSpecTD1">
+                                    @{
+                                        string[] txt2 = txt[i].Split(':');
+                                        @txt2[0]
+                                    }
+                                    </td>
+                                    @for (int j = 1; j < txt2.Count(); j++)
+                                    {
+                                        <td class="techSpecTD2">
+                                        @txt2[j]
+                                        </td>
+                                    }
+                                    
+                                </tr>
+                            }   
+                        }
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

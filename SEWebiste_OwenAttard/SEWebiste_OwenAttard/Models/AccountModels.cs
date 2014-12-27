@@ -8,6 +8,13 @@ using System.Web.Security;
 
 namespace SEWebiste_OwenAttard.Models
 {
+    public class MainPage
+    {
+
+    }
+
+
+
     public class UsersContext : DbContext
     {
         public UsersContext()
@@ -118,9 +125,7 @@ namespace SEWebiste_OwenAttard.Models
         public string SelectedCountryID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> Countries { get; set; }
 
-        [Display(Name = "Facebook profile URL")]
-        public string FBUrl { get; set; }
-
+        public bool ShowErrorBox { get; set; }
     }
 
     public class ExternalLogin

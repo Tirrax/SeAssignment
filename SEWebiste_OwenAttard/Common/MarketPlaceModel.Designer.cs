@@ -1734,9 +1734,6 @@ namespace Common
         /// </summary>
         /// <param name="username">Initial value of the Username property.</param>
         /// <param name="password">Initial value of the Password property.</param>
-        /// <param name="pin">Initial value of the Pin property.</param>
-        /// <param name="code">Initial value of the Code property.</param>
-        /// <param name="lastCodeDate">Initial value of the LastCodeDate property.</param>
         /// <param name="email">Initial value of the Email property.</param>
         /// <param name="firstName">Initial value of the FirstName property.</param>
         /// <param name="lastName">Initial value of the LastName property.</param>
@@ -1745,14 +1742,11 @@ namespace Common
         /// <param name="country">Initial value of the Country property.</param>
         /// <param name="mobileNumber">Initial value of the MobileNumber property.</param>
         /// <param name="sellerApproved">Initial value of the SellerApproved property.</param>
-        public static User CreateUser(global::System.String username, global::System.String password, global::System.String pin, global::System.String code, global::System.DateTime lastCodeDate, global::System.String email, global::System.String firstName, global::System.String lastName, global::System.String address, global::System.String town, global::System.String country, global::System.String mobileNumber, global::System.Boolean sellerApproved)
+        public static User CreateUser(global::System.String username, global::System.String password, global::System.String email, global::System.String firstName, global::System.String lastName, global::System.String address, global::System.String town, global::System.String country, global::System.String mobileNumber, global::System.Boolean sellerApproved)
         {
             User user = new User();
             user.Username = username;
             user.Password = password;
-            user.Pin = pin;
-            user.Code = code;
-            user.LastCodeDate = lastCodeDate;
             user.Email = email;
             user.FirstName = firstName;
             user.LastName = lastName;
@@ -1818,78 +1812,6 @@ namespace Common
         private global::System.String _Password;
         partial void OnPasswordChanging(global::System.String value);
         partial void OnPasswordChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Pin
-        {
-            get
-            {
-                return _Pin;
-            }
-            set
-            {
-                OnPinChanging(value);
-                ReportPropertyChanging("Pin");
-                _Pin = StructuralObject.SetValidValue(value, false, "Pin");
-                ReportPropertyChanged("Pin");
-                OnPinChanged();
-            }
-        }
-        private global::System.String _Pin;
-        partial void OnPinChanging(global::System.String value);
-        partial void OnPinChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Code
-        {
-            get
-            {
-                return _Code;
-            }
-            set
-            {
-                OnCodeChanging(value);
-                ReportPropertyChanging("Code");
-                _Code = StructuralObject.SetValidValue(value, false, "Code");
-                ReportPropertyChanged("Code");
-                OnCodeChanged();
-            }
-        }
-        private global::System.String _Code;
-        partial void OnCodeChanging(global::System.String value);
-        partial void OnCodeChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.DateTime LastCodeDate
-        {
-            get
-            {
-                return _LastCodeDate;
-            }
-            set
-            {
-                OnLastCodeDateChanging(value);
-                ReportPropertyChanging("LastCodeDate");
-                _LastCodeDate = StructuralObject.SetValidValue(value, "LastCodeDate");
-                ReportPropertyChanged("LastCodeDate");
-                OnLastCodeDateChanged();
-            }
-        }
-        private global::System.DateTime _LastCodeDate;
-        partial void OnLastCodeDateChanging(global::System.DateTime value);
-        partial void OnLastCodeDateChanged();
     
         /// <summary>
         /// No Metadata Documentation available.

@@ -1,0 +1,9 @@
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Repository\bin\Debug\Repository.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Repository\bin\Debug\Repository.pdb
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Repository\bin\Debug\Common.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Repository\bin\Debug\EntityFramework.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Repository\bin\Debug\Common.pdb
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Repository\bin\Debug\EntityFramework.xml
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Repository\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Repository\obj\Debug\Repository.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Repository\obj\Debug\Repository.pdb

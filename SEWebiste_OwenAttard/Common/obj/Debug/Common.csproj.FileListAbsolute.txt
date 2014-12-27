@@ -1,0 +1,8 @@
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Common\bin\Debug\Common.dll.config
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Common\bin\Debug\Common.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Common\bin\Debug\Common.pdb
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Common\bin\Debug\EntityFramework.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Common\bin\Debug\EntityFramework.xml
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Common\obj\Debug\Common.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\Common\obj\Debug\Common.pdb

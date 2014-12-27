@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DBTradersMarketModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DBTradersMarketEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="DBTradersMarketModel.Category" />
+    <EntitySet Name="Menus" EntityType="DBTradersMarketModel.Menu" />
+    <EntitySet Name="Products" EntityType="DBTradersMarketModel.Product" />
+    <EntitySet Name="Roles" EntityType="DBTradersMarketModel.Role" />
+    <EntitySet Name="ShoppingCarts" EntityType="DBTradersMarketModel.ShoppingCart" />
+    <EntitySet Name="TransactionDetails" EntityType="DBTradersMarketModel.TransactionDetail" />
+    <EntitySet Name="Transactions" EntityType="DBTradersMarketModel.Transaction" />
+    <EntitySet Name="Users" EntityType="DBTradersMarketModel.User" />
+    <AssociationSet Name="FK_Categories_Categories" Association="DBTradersMarketModel.FK_Categories_Categories">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Categories1" EntitySet="Categories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_Categories" Association="DBTradersMarketModel.FK_Products_Categories">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShoppingCart_Products" Association="DBTradersMarketModel.FK_ShoppingCart_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TransactionDetails_Products" Association="DBTradersMarketModel.FK_TransactionDetails_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="TransactionDetails" EntitySet="TransactionDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShoppingCart_Users" Association="DBTradersMarketModel.FK_ShoppingCart_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TransactionDetails_Transactions" Association="DBTradersMarketModel.FK_TransactionDetails_Transactions">
+      <End Role="Transactions" EntitySet="Transactions" />
+      <End Role="TransactionDetails" EntitySet="TransactionDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transactions_Users" Association="DBTradersMarketModel.FK_Transactions_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Transactions" EntitySet="Transactions" />
+    </AssociationSet>
+    <AssociationSet Name="RoleMenus" Association="DBTradersMarketModel.RoleMenus">
+      <End Role="Menus" EntitySet="Menus" />
+      <End Role="Roles" EntitySet="Roles" />
+    </AssociationSet>
+    <AssociationSet Name="UserRoles" Association="DBTradersMarketModel.UserRoles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="ParentID" Type="Int32" />
+    <NavigationProperty Name="Categories1" Relationship="DBTradersMarketModel.FK_Categories_Categories" FromRole="Categories" ToRole="Categories1" />
+    <NavigationProperty Name="Category1" Relationship="DBTradersMarketModel.FK_Categories_Categories" FromRole="Categories1" ToRole="Categories" />
+    <NavigationProperty Name="Products" Relationship="DBTradersMarketModel.FK_Products_Categories" FromRole="Categories" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="MenuID" />
+    </Key>
+    <Property Name="MenuID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="ActionName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="ControllerName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="HTMLID" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Roles" Relationship="DBTradersMarketModel.RoleMenus" FromRole="Menus" ToRole="Roles" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProductID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Qty" Type="Int32" Nullable="false" />
+    <Property Name="Features" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+    <Property Name="Image" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+    <Property Name="DateListed" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CategoryID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="DBTradersMarketModel.FK_Products_Categories" FromRole="Products" ToRole="Categories" />
+    <NavigationProperty Name="ShoppingCarts" Relationship="DBTradersMarketModel.FK_ShoppingCart_Products" FromRole="Products" ToRole="ShoppingCart" />
+    <NavigationProperty Name="TransactionDetails" Relationship="DBTradersMarketModel.FK_TransactionDetails_Products" FromRole="Products" ToRole="TransactionDetails" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Menus" Relationship="DBTradersMarketModel.RoleMenus" FromRole="Roles" ToRole="Menus" />
+    <NavigationProperty Name="Users" Relationship="DBTradersMarketModel.UserRoles" FromRole="Roles" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="ShoppingCart">
+    <Key>
+      <PropertyRef Name="Username" />
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="Qty" Type="Int32" Nullable="false" />
+    <Property Name="Total" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+    <NavigationProperty Name="Product" Relationship="DBTradersMarketModel.FK_ShoppingCart_Products" FromRole="ShoppingCart" ToRole="Products" />
+    <NavigationProperty Name="User" Relationship="DBTradersMarketModel.FK_ShoppingCart_Users" FromRole="ShoppingCart" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="TransactionDetail">
+    <Key>
+      <PropertyRef Name="TransactionID" />
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="TransactionID" Type="Int32" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="Qty" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+    <NavigationProperty Name="Product" Relationship="DBTradersMarketModel.FK_TransactionDetails_Products" FromRole="TransactionDetails" ToRole="Products" />
+    <NavigationProperty Name="Transaction" Relationship="DBTradersMarketModel.FK_TransactionDetails_Transactions" FromRole="TransactionDetails" ToRole="Transactions" />
+  </EntityType>
+  <EntityType Name="Transaction">
+    <Key>
+      <PropertyRef Name="TransactionID" />
+    </Key>
+    <Property Name="TransactionID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="TransactionDetails" Relationship="DBTradersMarketModel.FK_TransactionDetails_Transactions" FromRole="Transactions" ToRole="TransactionDetails" />
+    <NavigationProperty Name="User" Relationship="DBTradersMarketModel.FK_Transactions_Users" FromRole="Transactions" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="80" Unicode="false" FixedLength="false" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Town" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Country" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="MobileNumber" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="SellerApproved" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="ShoppingCarts" Relationship="DBTradersMarketModel.FK_ShoppingCart_Users" FromRole="Users" ToRole="ShoppingCart" />
+    <NavigationProperty Name="Transactions" Relationship="DBTradersMarketModel.FK_Transactions_Users" FromRole="Users" ToRole="Transactions" />
+    <NavigationProperty Name="Roles" Relationship="DBTradersMarketModel.UserRoles" FromRole="Users" ToRole="Roles" />
+  </EntityType>
+  <Association Name="FK_Categories_Categories">
+    <End Role="Categories" Type="DBTradersMarketModel.Category" Multiplicity="0..1" />
+    <End Role="Categories1" Type="DBTradersMarketModel.Category" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="Categories1">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_Categories">
+    <End Role="Categories" Type="DBTradersMarketModel.Category" Multiplicity="1" />
+    <End Role="Products" Type="DBTradersMarketModel.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShoppingCart_Products">
+    <End Role="Products" Type="DBTradersMarketModel.Product" Multiplicity="1" />
+    <End Role="ShoppingCart" Type="DBTradersMarketModel.ShoppingCart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="ShoppingCart">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TransactionDetails_Products">
+    <End Role="Products" Type="DBTradersMarketModel.Product" Multiplicity="1" />
+    <End Role="TransactionDetails" Type="DBTradersMarketModel.TransactionDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="TransactionDetails">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShoppingCart_Users">
+    <End Role="Users" Type="DBTradersMarketModel.User" Multiplicity="1" />
+    <End Role="ShoppingCart" Type="DBTradersMarketModel.ShoppingCart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="ShoppingCart">
+        <PropertyRef Name="Username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TransactionDetails_Transactions">
+    <End Role="Transactions" Type="DBTradersMarketModel.Transaction" Multiplicity="1" />
+    <End Role="TransactionDetails" Type="DBTradersMarketModel.TransactionDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Transactions">
+        <PropertyRef Name="TransactionID" />
+      </Principal>
+      <Dependent Role="TransactionDetails">
+        <PropertyRef Name="TransactionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transactions_Users">
+    <End Role="Users" Type="DBTradersMarketModel.User" Multiplicity="1" />
+    <End Role="Transactions" Type="DBTradersMarketModel.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="Transactions">
+        <PropertyRef Name="Username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RoleMenus">
+    <End Role="Menus" Type="DBTradersMarketModel.Menu" Multiplicity="*" />
+    <End Role="Roles" Type="DBTradersMarketModel.Role" Multiplicity="*" />
+  </Association>
+  <Association Name="UserRoles">
+    <End Role="Roles" Type="DBTradersMarketModel.Role" Multiplicity="*" />
+    <End Role="Users" Type="DBTradersMarketModel.User" Multiplicity="*" />
+  </Association>
+</Schema>

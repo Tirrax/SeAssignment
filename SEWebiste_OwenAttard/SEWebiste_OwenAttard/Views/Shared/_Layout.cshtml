@@ -23,6 +23,10 @@
     <link href="~/themes/css/font-awesome.css" rel="stylesheet" type="text/css">
     <!-- Google-code-prettify -->
     <script src="~/Scripts/jquery-2.1.3.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
     <link href="~/themes/js/google-code-prettify/prettify.css" rel="stylesheet" />
     <!-- fav and touch icons -->
     <link rel="shortcut icon" href="~/themes/images/ico/favicon.ico">
@@ -37,10 +41,47 @@
 
             $('#btnLogin').click(function (e) {
                 location.href = '@Url.Content("~/Account/Login/")';
+            });
+
         });
 
-    });
-</script>
+        function UpdateCart() {
+
+            $.ajax({
+                url: '@Url.Action("Register", "Account")',
+                type: 'POST',
+                data: {},
+                dataType: "json",
+                success: function(data) {
+                    document.getElementById("Cart").innerText = "Cart(" + data.result + ")";
+
+                }
+            });
+        }
+
+        function GetMenu() {
+
+            $.ajax({
+                url: '@Url.Action("GetMenus", "Menu")',
+                type: 'POST',
+                data: {},
+                dataType: "json",
+                success: function(data) {
+                    var menu = document.getElementById("menu");
+                    if (data.ret.length != 0) {
+                        for (var i = 0; i < data.ret.length; i++) {
+                            menu.innerHTML += "<li><a id=\"" + data.ret[i].MenuID + "\" href=\"/" + data.ret[i].ControllerName + "/" + data.ret[i].ActionName + "\">" + data.ret[i].MenuName + "</a></li>";
+                        }
+                        UpdateCart();
+                    }
+
+                }
+            });
+        }
+
+        
+
+    </script>
 </head>
     <body>
         <div id="header">
@@ -79,20 +120,23 @@
                         <form class="form-inline navbar-search" method="post" action="products.html">
                             <input id="srchFld" class="srchTxt" type="text" style="padding-left:30px;" />
                             
-                            <select class="srchTxt">
-                                <option>All</option>
-                                <option>CLOTHES </option>
-                                <option>FOOD AND BEVERAGES </option>
-                                <option>HEALTH & BEAUTY </option>
-                                <option>SPORTS & LEISURE </option>
-                                <option>BOOKS & ENTERTAINMENTS </option>
-                            </select>
-
                             <button type="submit" id="submitButton" class="btn btn-primary">Go</button>
                         </form>
                         <ul id="topMenu" class="nav pull-right">
                             <li class="">
-                                <a id="btnLogin" role="button" data-toggle="modal" style="padding-right: 0"><span class="btn btn-large btn-success">Login</span></a>
+                            @{
+                                if (!Context.User.Identity.IsAuthenticated)
+                                {
+                                    <a id="btnLogin" role="button" data-toggle="modal" style="padding-right: 0" onclick="location.href='@Url.Action("LogIn", "Account")'"><span class="btn btn-large btn-success">Login</span></a>
+                                }
+                                else
+                                {
+
+                                    <a id="btnLogOut" onclick="location.href='@Url.Action("LogOff", "Account")'" role="button" data-toggle="modal" style="padding-right: 0"><span class="btn btn-large btn-success">Logout</span></a>
+                                    
+                                }
+                        
+                            }
                             </li>
                         </ul>
                     </div>
@@ -104,41 +148,9 @@
                 <div class="row">
                     <!-- Sidebar ================================================== -->
                     <div id="sidebar" class="span3">
+
                         <ul id="sideManu" class="nav nav-tabs nav-stacked">
-                            <li class="subMenu open"><a>ELECTRONICS [230]</a>
-                                <ul>
-                                    <li><a class="active" href="products.html"><i class="icon-chevron-right"></i>Cameras (100) </a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Computers, Tablets & laptop (30)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Mobile Phone (80)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Sound & Vision (15)</a></li>
-                                </ul>
-                            </li>
-                            <li class="subMenu"><a>CLOTHES [840] </a>
-                                <ul style="display: none">
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Women's Clothing (45)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Women's Shoes (8)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Women's Hand Bags (5)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Men's Clothings  (45)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Men's Shoes (6)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Kids Clothing (5)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Kids Shoes (3)</a></li>
-                                </ul>
-                            </li>
-                            <li class="subMenu"><a>FOOD AND BEVERAGES [1000]</a>
-                                <ul style="display: none">
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Angoves  (35)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Bouchard Aine & Fils (8)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>French Rabbit (5)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Louis Bernard  (45)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>BIB Wine (Bag in Box) (8)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Other Liquors & Wine (5)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Garden (3)</a></li>
-                                    <li><a href="products.html"><i class="icon-chevron-right"></i>Khao Shong (11)</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="products.html">HEALTH & BEAUTY [18]</a></li>
-                            <li><a href="products.html">SPORTS & LEISURE [58]</a></li>
-                            <li><a href="products.html">BOOKS & ENTERTAINMENTS [14]</a></li>
+                         
                         </ul>
                         <br />
                         <div class="thumbnail">
@@ -202,7 +214,6 @@
         <script src="~/themes/js/bootshop.js"></script>
         <script src="~/themes/js/jquery.lightbox-0.5.js"></script>
 
-        @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
     </body>
 </html>

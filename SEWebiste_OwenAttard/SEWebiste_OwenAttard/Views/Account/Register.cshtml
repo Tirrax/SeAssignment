@@ -13,9 +13,18 @@
 
     @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
 
-        <fieldset class="form-horizontal">
+         if (ViewData.Model != null && ViewData.Model.ShowErrorBox)
+                {
+                    <div class="alert alert-block alert-error fade in">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+
+                        @Html.ValidationSummary(true)
+
+                    </div>
+                }
+                
+        <div class="form-horizontal">
             <h4>Information</h4>
             <div class="control-group">
                 <label class="control-label">Username<sup>*</sup></label>
@@ -68,8 +77,22 @@
                     @Html.TextBoxFor(m => m.Addres, new { @placeholder = "Address" })
                 </div>
             </div>
-        
-            <p><sup>*</sup>Required field	</p>
+            
+            <div class="control-group">
+                <label class="control-label" >Town<sup>*</sup></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.TownName, new { @placeholder = "Town" })
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" >Country<sup>*</sup></label>
+                <div class="controls">
+                     @Html.DropDownListFor(m => m.SelectedCountryID, Model.Countries)
+                </div>
+            </div>
+            
+            <p><sup>*</sup>Required field</p>
 	
             <div class="control-group">
                 <div class="controls">
@@ -78,7 +101,7 @@
                     <input class="btn btn-large btn-success" type="submit" value="Register" />
                 </div>
             </div>	
-        </fieldset>
+        </div>
 }
     
     
