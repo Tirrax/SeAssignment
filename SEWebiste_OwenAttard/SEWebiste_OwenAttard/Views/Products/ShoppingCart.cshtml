@@ -12,47 +12,49 @@
 	<hr class="soft"/>
 	
 		
-    <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Name</th>
-                  <th>Quantity/Update</th>
-				  <th>Price</th>
-                  <th>Total</th>
-				</tr>
-              </thead>
-        <tbody>
-            @{
-                decimal Globalprice = 0;
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Name</th>
+            <th>Quantity/Update</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            decimal Globalprice = 0;
 
-                 foreach (var CurCart in Model.ShoppinCartItems)
-                 {
-                     <tr>
-                         <td>
-                             <img width="60" src="/ProductImages/@CurCart.Product.Image" alt="" /></td>
-                         <td>@CurCart.Product.Name<br />
-                         </td>
-                         <td>
-                             <div class="input-append">
-                                 <input class="span1" style="max-width: 34px" id="appendedInputButtons" size="16" type="text" value="@CurCart.Qty">
-                                 <button class="btn" type="button"><i class="icon-minus"></i></button>
-                                 <button class="btn" type="button"><i class="icon-plus"></i></button>
-                                 <button class="btn btn-danger" type="button"><i class="icon-remove icon-white"></i></button>
-                             </div>
-                         </td>
-                         <td>€@CurCart.Product.Price</td>
-                         <td colspan="3">€@( CurCart.Product.Price*CurCart.Qty )</td>
-                         @(Globalprice += CurCart.Product.Price*CurCart.Qty)
-                     </tr>
-                 }
-
+            foreach (var CurCart in Model.ShoppinCartItems)
+            {
                 <tr>
-                    <td colspan="4" style="text-align: right">Total Price:	</td>
-                    <td  colspan="3" class="label label-important" style="display: block"> <strong>  €@Globalprice</strong></td>
+                    <td>
+                        <img width="60" src="/ProductImages/@CurCart.Product.Image" alt="" /></td>
+                    <td>@CurCart.Product.Name<br />
+                    </td>
+                    <td>
+                        <div class="input-append">
+                            <input class="span1" style="max-width: 34px" id="appendedInputButtons" size="16" type="text" value="@CurCart.Qty">
+                            <button class="btn" type="button"><i class="icon-minus"></i></button>
+                            <button class="btn" type="button"><i class="icon-plus"></i></button>
+                            <button class="btn btn-danger" type="button"><i class="icon-remove icon-white"></i></button>
+                        </div>
+                    </td>
+                    <td>€@CurCart.Product.Price</td>
+                    <td colspan="3">€@( CurCart.Product.Price*CurCart.Qty )</td>
+                    @(Globalprice += CurCart.Product.Price*CurCart.Qty)
                 </tr>
             }
-        </tbody>
-            </table>
-			
-	<a href="login.html" class="btn btn-large pull-right">Next <i class="icon-arrow-right"></i></a>
+
+            <tr>
+                <td colspan="4" style="text-align: right">Total Price:	</td>
+                <td  colspan="3" class="label label-important" style="display: block"> <strong>  €@Globalprice</strong></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="pull-right">
+    <input type="image" onclick="window.location.href = '/PayPal/ValidateCommand'" id="MainContent_CheckoutImageBtn" src="~/Images/btn_xpressCheckout.gif" alt="Check out with PayPal" style="background-color: Transparent; border-width: 0px; width: 145px;">
+</div>

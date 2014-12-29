@@ -1,0 +1,32 @@
+﻿@model SEWebiste_OwenAttard.Models.PayPalModel
+
+<body>
+    <form id= "hiddenform"  action=@Model.actionURL  enctype= "multipart/form-data" method="POST"  >
+        @Html.HiddenFor(model => model.cmd)
+        <input type="hidden" name="upload" value="1">
+        @Html.HiddenFor(model => model.business)
+        @Html.HiddenFor(model => model.@return)
+        @Html.HiddenFor(model => model.cancel_return)
+        @Html.HiddenFor(model => model.notify_url)
+        @Html.HiddenFor(model => model.currency_code)
+        
+        @for (int i = 1; i < Model.items.Count() + 1; i++)
+        {
+            @Html.HiddenFor(model => model.items[i - 1].item_name, new {@Name = "item_name_" + i})
+            @Html.HiddenFor(model => model.items[i - 1].amount, new {@Name = "amount_" + i})
+            @Html.HiddenFor(model => model.items[i - 1].quantity, new {@Name = "quantity_" + i})
+        }
+
+    </form>
+    <p style="text-align: center">
+        <h3>Connecting to Paypal , please wait …
+        </h3>
+    </p>
+</body>
+
+<script type="text/javascript" language="javascript">
+    $(this.document).ready(function () {
+        var form = $("form");
+        form.submit();
+    });
+</script>
