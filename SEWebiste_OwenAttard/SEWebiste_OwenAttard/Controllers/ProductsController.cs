@@ -127,10 +127,92 @@ namespace SEWebiste_OwenAttard.Controllers
 
             ShoppingcartModel model = new ShoppingcartModel
             {
-                ShoppinCartItems = ShopServ.GetShoppingCartItems(User.Identity.Name)
+                ShoppinCartItems = ShopServ.GetShoppingCartItems(User.Identity.Name)                
             };
 
+            model.total = model.ShoppinCartItems.Sum(x => x.Qty*x.Product.Price);
+
             return View(model);
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult RemoveAll()
+        {
+            try
+            {
+                if (!User.Identity.IsAuthenticated)
+                    return Json(new { error = "You are not logged in." }, JsonRequestBehavior.AllowGet);
+
+                ShoppingCartBL ShopServ = new ShoppingCartBL();
+                List<ShoppingCart> items = ShopServ.GetShoppingCartItems(User.Identity.Name).ToList();
+
+                foreach (ShoppingCart item in items)
+                {
+                    ShopServ.RemoveItem(User.Identity.Name, item.ProductID);
+                }
+
+                return Json(new { result = "Success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = "There was an error while Editing Quantity" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult RemoveItem(int ProductID)
+        {
+            try
+            {
+                if (!User.Identity.IsAuthenticated)
+                    return Json(new { error = "You are not logged in." }, JsonRequestBehavior.AllowGet);
+
+                ShoppingCartBL ShopServ = new ShoppingCartBL();
+                ShopServ.RemoveItem(User.Identity.Name, ProductID);
+
+                List<ShoppingCart> items = ShopServ.GetShoppingCartItems(User.Identity.Name).ToList();
+                decimal tmpTotal = items.Sum(item => item.Qty*item.Product.Price);
+
+                return Json(new { result = "Success", count = ShopServ.GetShoppingCartItems(User.Identity.Name).Count(), Total = tmpTotal }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = "There was an error while Editing Quantity" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult UpdateQuantity(int ProductID, int Qty)
+        {
+            try
+            {
+                if (!User.Identity.IsAuthenticated)
+                    return Json(new { error = "You are not logged in." }, JsonRequestBehavior.AllowGet);
+
+                ShoppingCartBL ShopServ = new ShoppingCartBL();
+                ProductBL productserv = new ProductBL();
+                ShoppingCart cart = ShopServ.GetItem(User.Identity.Name, ProductID);
+
+                if (Qty == cart.Qty)
+                    return Json(new { result = "NoChange" }, JsonRequestBehavior.AllowGet);
+
+                ShopServ.EditQuantity(User.Identity.Name, ProductID, Qty);
+
+                List<ShoppingCart> items = ShopServ.GetShoppingCartItems(User.Identity.Name).ToList();
+
+                decimal tmpTotal = items.Sum(item => item.Qty*item.Product.Price);
+
+                return Json(new { result = "Success", Total = productserv.GetProductByID(ProductID).Price * Qty, TotalAll = tmpTotal }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = "There was an error while Editing Quantity" }, JsonRequestBehavior.AllowGet);
+            }
         }
 
 

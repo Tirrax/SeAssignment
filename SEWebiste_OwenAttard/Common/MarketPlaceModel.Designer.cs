@@ -892,6 +892,30 @@ namespace Common
         private global::System.Int32 _CategoryID;
         partial void OnCategoryIDChanging(global::System.Int32 value);
         partial void OnCategoryIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Seller
+        {
+            get
+            {
+                return _Seller;
+            }
+            set
+            {
+                OnSellerChanging(value);
+                ReportPropertyChanging("Seller");
+                _Seller = StructuralObject.SetValidValue(value, true, "Seller");
+                ReportPropertyChanged("Seller");
+                OnSellerChanged();
+            }
+        }
+        private global::System.String _Seller;
+        partial void OnSellerChanging(global::System.String value);
+        partial void OnSellerChanged();
 
         #endregion
 
@@ -1346,12 +1370,14 @@ namespace Common
         /// <param name="transactionID">Initial value of the TransactionID property.</param>
         /// <param name="date">Initial value of the Date property.</param>
         /// <param name="username">Initial value of the Username property.</param>
-        public static Transaction CreateTransaction(global::System.Int32 transactionID, global::System.DateTime date, global::System.String username)
+        /// <param name="payed">Initial value of the Payed property.</param>
+        public static Transaction CreateTransaction(global::System.Int32 transactionID, global::System.DateTime date, global::System.String username, global::System.Boolean payed)
         {
             Transaction transaction = new Transaction();
             transaction.TransactionID = transactionID;
             transaction.Date = date;
             transaction.Username = username;
+            transaction.Payed = payed;
             return transaction;
         }
 
@@ -1433,6 +1459,30 @@ namespace Common
         private global::System.String _Username;
         partial void OnUsernameChanging(global::System.String value);
         partial void OnUsernameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Payed
+        {
+            get
+            {
+                return _Payed;
+            }
+            set
+            {
+                OnPayedChanging(value);
+                ReportPropertyChanging("Payed");
+                _Payed = StructuralObject.SetValidValue(value, "Payed");
+                ReportPropertyChanged("Payed");
+                OnPayedChanged();
+            }
+        }
+        private global::System.Boolean _Payed;
+        partial void OnPayedChanging(global::System.Boolean value);
+        partial void OnPayedChanged();
 
         #endregion
 

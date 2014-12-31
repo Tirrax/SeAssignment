@@ -134,4 +134,9 @@ namespace SEWebiste_OwenAttard.Models
         public string ProviderDisplayName { get; set; }
         public string ProviderUserId { get; set; }
     }
+
+    public class UserDetails
+    {
+        public bool isSeller { get; set; }
+    }
 }

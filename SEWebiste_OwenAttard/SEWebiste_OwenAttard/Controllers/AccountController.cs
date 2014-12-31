@@ -45,6 +45,21 @@ namespace SEWebiste_OwenAttard.Controllers
             return View();
         }
 
+        public ActionResult UserAccount()
+        {
+
+            User user = new UsersBL().GetUserByUsername(User.Identity.Name);
+
+            UserDetails model = new UserDetails()
+            {
+                isSeller = user.SellerApproved
+            };
+
+            return View(model);
+        }
+
+
+
         //
         // POST: /Account/Login
 

@@ -31,7 +31,7 @@ namespace SEWebiste_OwenAttard.Models
             cmd = "_cart";
             business = ConfigurationManager.AppSettings["business"];
             cancel_return = string.Format("http://{0}/Products/ShoppingCart", HttpContext.Current.Request.Url.Authority);
-            @return = string.Format("http://{0}/Products/ShoppingCart", HttpContext.Current.Request.Url.Authority);
+            @return = string.Format("http://{0}/paypal/IPN", HttpContext.Current.Request.Url.Authority);
 
             if (useSandBox)
             {
@@ -42,7 +42,7 @@ namespace SEWebiste_OwenAttard.Models
                 actionURL = ConfigurationManager.AppSettings["prod_url"];
             }
 
-            notify_url = ConfigurationManager.AppSettings["notify_url"];
+            notify_url = string.Format("http://{0}/paypal/IPN", HttpContext.Current.Request.Url.Authority); ;
             currency_code = ConfigurationManager.AppSettings["currency_code"];
         }
     }

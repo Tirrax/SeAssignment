@@ -13,7 +13,7 @@ $(document).ready(function () {
 		$('#gallery a').lightBox();
 	});
 	
-	$('.subMenu > a').live("click", function(e)
+	$(document.body).on("click", ".subMenu > a", function (e)
 	{
 		e.preventDefault();
 		var subMenu = $(this).siblings('ul');
@@ -42,7 +42,7 @@ $(document).ready(function () {
 		}
 	});
 	var ul = $('#sidebar > ul');
-	$('#sidebar > a').live("click", function(e)
+	$(document.body).on("click", "#sidebar > a", function (e)
 	{
 		e.preventDefault();
 		var sidebar = $('#sidebar');

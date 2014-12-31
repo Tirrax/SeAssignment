@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Common;
 using DataAccess;
 
-namespace Repository
+namespace DataAccess
 {
     public class ProductsRepository: Connection
     {

@@ -11,7 +11,85 @@
 	<h3>  Shopping Cart</h3>	
 	<hr class="soft"/>
 	
-		
+<script type="text/javascript">
+
+    function UpdateQuantity(ID, Increase) {
+        var qty = document.getElementById("Qty_" + ID).value;
+        if (Increase) {
+            qty++;
+        }
+        else
+        {
+            qty --;
+            if (qty <= 0) {
+                RemoveItem(ID);
+                return;
+            }
+            
+        }
+
+        $.ajax({
+            url: '@Url.Action("UpdateQuantity", "Products")',
+            type: 'POST',
+            data:
+            {
+                'ProductID': ID,
+                'Qty': qty,
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.result == "Success") {
+                    var varTotal = $("#TableTotal");
+                    varTotal[0].innerText = "€" + data.TotalAll.toFixed(2);
+
+                    var varAmount = $("#Amount_" + ID);
+                    varAmount[0].innerText = "€" + data.Total.toFixed(2);
+
+                    document.getElementById("Qty_" + ID).value = qty;
+
+                }
+
+            },
+            error: function (req, status, error) {
+                alert("R: " + req + " S: " + status + " E: " + error);
+            }
+        });
+
+    }
+
+    function isNumber(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
+    function RemoveItem(ID) {
+        $.ajax({
+            url: '@Url.Action("RemoveItem", "Products")',
+            type: 'POST',
+            data:
+            {
+                'ProductID': ID,
+                    
+            },
+            dataType: "json",
+            success: function (data) {
+
+                var row = $('#Row_' + ID);
+                row.remove();
+
+                var varTotal = $("#TableTotal");
+                varTotal[0].innerText = "€" + data.Total.toFixed(2);
+                UpdateCart();
+
+
+            },
+            error: function (req, status, error) {
+                alert("R: " + req + " S: " + status + " E: " + error);
+            }
+        });
+
+    }
+</script>
+
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -24,32 +102,31 @@
     </thead>
     <tbody>
         @{
-            decimal Globalprice = 0;
 
             foreach (var CurCart in Model.ShoppinCartItems)
             {
-                <tr>
+                <tr id="Row_@CurCart.ProductID">
                     <td>
                         <img width="60" src="/ProductImages/@CurCart.Product.Image" alt="" /></td>
                     <td>@CurCart.Product.Name<br />
                     </td>
                     <td>
                         <div class="input-append">
-                            <input class="span1" style="max-width: 34px" id="appendedInputButtons" size="16" type="text" value="@CurCart.Qty">
-                            <button class="btn" type="button"><i class="icon-minus"></i></button>
-                            <button class="btn" type="button"><i class="icon-plus"></i></button>
-                            <button class="btn btn-danger" type="button"><i class="icon-remove icon-white"></i></button>
+                            <input class="span1" style="max-width: 34px" size="16" type="text" value="@CurCart.Qty" id="Qty_@CurCart.ProductID" disabled>
+                            <button class="btn" type="button" onclick="UpdateQuantity(@CurCart.ProductID, false)"><i class="icon-minus"></i></button>
+                            <button class="btn" type="button" onclick="UpdateQuantity(@CurCart.ProductID, true)"><i class="icon-plus"></i></button>
+                            <button class="btn btn-danger" onclick="RemoveItem(@CurCart.ProductID)" type="button"><i class="icon-remove icon-white"></i></button>
                         </div>
                     </td>
                     <td>€@CurCart.Product.Price</td>
-                    <td colspan="3">€@( CurCart.Product.Price*CurCart.Qty )</td>
-                    @(Globalprice += CurCart.Product.Price*CurCart.Qty)
+                    <td colspan="3" id="Amount_@CurCart.ProductID">€@( CurCart.Product.Price*CurCart.Qty )</td>
+
                 </tr>
             }
 
             <tr>
                 <td colspan="4" style="text-align: right">Total Price:	</td>
-                <td  colspan="3" class="label label-important" style="display: block"> <strong>  €@Globalprice</strong></td>
+                <td  colspan="3" class="label label-important" style="display: block"> <strong id="TableTotal">  €@Model.total</strong></td>
             </tr>
         }
     </tbody>

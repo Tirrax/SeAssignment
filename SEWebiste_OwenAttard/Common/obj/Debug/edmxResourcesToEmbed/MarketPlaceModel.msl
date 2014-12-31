@@ -24,6 +24,7 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="DBTradersMarketModel.Product">
         <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="Seller" ColumnName="Seller" />
           <ScalarProperty Name="ProductID" ColumnName="ProductID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Qty" ColumnName="Qty" />
@@ -66,6 +67,7 @@
     <EntitySetMapping Name="Transactions">
       <EntityTypeMapping TypeName="DBTradersMarketModel.Transaction">
         <MappingFragment StoreEntitySet="Transactions">
+          <ScalarProperty Name="Payed" ColumnName="Payed" />
           <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="Username" ColumnName="Username" />

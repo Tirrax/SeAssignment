@@ -1,0 +1,44 @@
+﻿@model SEWebiste_OwenAttard.Models.UserDetails
+
+@{
+    ViewBag.Title = "UserAccount";
+}
+
+
+<ul class="breadcrumb">
+		<li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
+		<li class="active"> User Account</li>
+    </ul>
+	<h3>User Account</h3>	
+<hr class="soft"/>
+<br />
+
+    <div class="form-horizontal">
+        <h4>Orders Actions</h4>
+        <hr class="soft"/>
+        <div>@Html.ActionLink("Order History", "OrderHistory", "Orders", null, new {style="color:blue;"})</div>
+           
+        <br />
+        
+        @if (!User.IsInRole("Admin"))
+        {
+             if (!Model.isSeller)
+             {
+                 <h4>Upgrade</h4>
+                 <hr class="soft"/>
+                 <div>@Html.ActionLink("Upgrade to seller account", "index", "Home", null, new {style = "color:blue;"})</div>
+             }
+             else
+             {
+                 <h4>Your account has been approved as a seller account</h4>
+             }
+        }
+        else
+        {
+            <h4>Admin Actions</h4>
+            <hr class="soft"/>
+            <div>@Html.ActionLink("Manage Admins", "OrderHistory", "Orders", null, new {style="color:blue;"})</div>
+            <div>@Html.ActionLink("Approve Orders", "OrderHistory", "Orders", null, new {style="color:blue;"})</div>
+        }
+
+    </div>

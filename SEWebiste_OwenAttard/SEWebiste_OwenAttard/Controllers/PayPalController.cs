@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity.Migrations.Design;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using BL;
@@ -23,20 +26,30 @@ namespace SEWebiste_OwenAttard.Controllers
         {
             return View();
         }
-        public ActionResult ValidateCommand(string product, string totalPrice)
+
+        public ActionResult ValidateCommand()
         {
             bool useSandbox = Convert.ToBoolean(ConfigurationManager.AppSettings["IsSandbox"]);
             var paypal = new PayPalModel(useSandbox);
 
-            List<ShoppingCart> cart = new ShoppingCartBL().GetShoppingCartItems(User.Identity.Name).ToList();
+            TransactionBL checkoutBL = new TransactionBL();
+            List<TransactionDetail> ItemsAdded = new List<TransactionDetail>();
+            int OrderID = 0;
+            checkoutBL.Checkout(User.Identity.Name, ref ItemsAdded, ref OrderID);
 
-            foreach (var curCart in cart)
+
+            if (ItemsAdded.Count <= 0)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            foreach (var curCart in ItemsAdded)
             {
                 ItemModel model = new ItemModel()
                 {
                     quantity = curCart.Qty,
                     item_name = curCart.Product.Name,
-                    amount = curCart.Product.Price
+                    amount = curCart.Price
                 };
 
                 paypal.items.Add(model);
@@ -46,5 +59,86 @@ namespace SEWebiste_OwenAttard.Controllers
             return View(paypal);
         }
 
+
+        [AllowAnonymous]
+        public ActionResult IPN()
+        {
+
+            // IPN code when hosted
+
+            /*
+            // Receive IPN request from PayPal and parse all the variables returned
+            var formVals = new Dictionary<string, string>();
+            formVals.Add("cmd", "_notify-validate");
+
+            // if you want to use the PayPal sandbox change this from false to true
+            string response = GetPayPalResponse(formVals, true);
+
+            if (response == "VERIFIED")
+            {
+                string transactionID = Request["txn_id"];
+                string sAmountPaid = Request["mc_gross"];
+                string deviceID = Request["custom"];
+
+                //validate the order
+                Decimal amountPaid = 0;
+                Decimal.TryParse(sAmountPaid, out amountPaid);
+
+                if (sAmountPaid == "2.95")
+                {
+                    // take the information returned and store this into a subscription table
+                    // this is where you would update your database with the details of the tran
+
+                    return RedirectToAction("Index", "Home"); ;
+
+                }
+            }
+            */
+            return RedirectToAction("Index", "Home"); ;
+        }
+
+        private string GetPayPalResponse(Dictionary<string, string> formVals, bool useSandbox)
+        {
+
+            /*// Parse the variables
+            // Choose whether to use sandbox or live environment
+            string paypalUrl = useSandbox
+                ? "https://www.sandbox.paypal.com/cgi-bin/webscr"
+                : "https://www.paypal.com/cgi-bin/webscr";
+
+            HttpWebRequest req = (HttpWebRequest) WebRequest.Create(paypalUrl);
+
+            // Set values for the request back
+            req.Method = "POST";
+            req.ContentType = "application/x-www-form-urlencoded";
+
+            byte[] param = Request.BinaryRead(Request.ContentLength);
+            string strRequest = Encoding.ASCII.GetString(param);
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(strRequest);
+
+            foreach (string key in formVals.Keys)
+            {
+                sb.AppendFormat("&{0}={1}", key, formVals[key]);
+            }
+            strRequest += sb.ToString();
+            req.ContentLength = strRequest.Length;
+
+            string response = "";
+            using (StreamWriter streamOut = new StreamWriter(req.GetRequestStream(), System.Text.Encoding.ASCII))
+            {
+
+                streamOut.Write(strRequest);
+                streamOut.Close();
+                using (StreamReader streamIn = new StreamReader(req.GetResponse().GetResponseStream()))
+                {
+                    response = streamIn.ReadToEnd();
+                }
+            }
+            
+            return response;*/
+            return null;
+        }
     }
 }

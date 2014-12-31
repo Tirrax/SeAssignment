@@ -32,5 +32,7 @@ namespace SEWebiste_OwenAttard.Models
     public class ShoppingcartModel
     {
         public IEnumerable<Common.ShoppingCart> ShoppinCartItems;
+
+        public decimal total = 0;
     }
 }

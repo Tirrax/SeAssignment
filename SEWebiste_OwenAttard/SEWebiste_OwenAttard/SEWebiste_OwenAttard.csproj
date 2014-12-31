@@ -165,6 +165,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PayPalController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -172,6 +173,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\MenuModel.cs" />
+    <Compile Include="Models\OrderModels.cs" />
     <Compile Include="Models\PayPalModel.cs" />
     <Compile Include="Models\ProductModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -502,6 +504,11 @@
     <Content Include="Views\Products\ProductDetail.cshtml" />
     <Content Include="Views\Products\ShoppingCart.cshtml" />
     <Content Include="Views\PayPal\ValidateCommand.cshtml" />
+    <Content Include="Views\PayPal\RedirectFromPaypal.cshtml" />
+    <Content Include="Views\Account\UserAccount.cshtml" />
+    <Content Include="Views\Orders\OrderHistory.cshtml" />
+    <Content Include="Views\Admin\ManageAdmins.cshtml" />
+    <Content Include="Views\Admin\PendingOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -541,7 +548,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>40563</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:63210/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

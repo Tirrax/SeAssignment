@@ -83,6 +83,7 @@
     <NavigationProperty Name="Category" Relationship="DBTradersMarketModel.FK_Products_Categories" FromRole="Products" ToRole="Categories" />
     <NavigationProperty Name="ShoppingCarts" Relationship="DBTradersMarketModel.FK_ShoppingCart_Products" FromRole="Products" ToRole="ShoppingCart" />
     <NavigationProperty Name="TransactionDetails" Relationship="DBTradersMarketModel.FK_TransactionDetails_Products" FromRole="Products" ToRole="TransactionDetails" />
+    <Property Type="String" Name="Seller" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -126,6 +127,7 @@
     <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="TransactionDetails" Relationship="DBTradersMarketModel.FK_TransactionDetails_Transactions" FromRole="Transactions" ToRole="TransactionDetails" />
     <NavigationProperty Name="User" Relationship="DBTradersMarketModel.FK_Transactions_Users" FromRole="Transactions" ToRole="Users" />
+    <Property Type="Boolean" Name="Payed" Nullable="false" />
   </EntityType>
   <EntityType Name="User">
     <Key>
