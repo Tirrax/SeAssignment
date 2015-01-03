@@ -42,5 +42,12 @@ namespace BL
             return new RoleRepository().IsUserInRole(username, RoleName);
 
         }
+
+        public bool MakeAdmin(string username, bool IsAdmin)
+        {
+            return new RoleRepository().MakeAdmin(username, IsAdmin);
+        }
+
+
     }
 }

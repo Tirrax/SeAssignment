@@ -124,6 +124,16 @@ namespace BL
         }
 
 
+        public IEnumerable<Transaction> GetPendingTransactions()
+        {
+            return new TransactionRepository().GetPendingTransactions();
+        }
+
+        public bool ApprovePament(int TransactionId)
+        {
+            return new TransactionRepository().ApprovePament(TransactionId);
+        }
+
         /// <summary>
         /// Checks if user bought a product
         /// </summary>

@@ -1,6 +1,170 @@
-﻿@{
-    ViewBag.Title = "PendingOrders";
+﻿@model List<SEWebiste_OwenAttard.Models.OrderModels>
+@{
+    ViewBag.Title = "Pending Orders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
 
-<h2>PendingOrders</h2>
+<script>
+    
+    function Approve(OrderID) {
+        $.ajax({
+            url: '@Url.Action("ApprovePendingOrder", "Admin")',
+                type: 'POST',
+                data: {
+                    'orderID': OrderID,
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.ret) {
+                        document.getElementById("Action_" + OrderID).innerHTML = "Payment approved";
+                    }
+                    else {
+                        document.getElementById("Action_" + OrderID).innerHTML = "Payment was not approved";
+                    }
+
+                }
+            });
+        }
+
+    function fnFormatDetails(table_id, html) {
+        var sOut = "<table id=\"exampleTable_" + table_id + "\">";
+        sOut += html;
+        sOut += "</table>";
+        return sOut;
+    }
+
+    var iTableCounter = 1;
+    var oTable;
+    var oInnerTable;
+    var TableHtml;
+
+
+    function GenerateTableHtml(ID, nTr) {
+        $.ajax({
+            url: '@Url.Action("GetOrderDetail", "Orders")',
+            type: 'POST',
+            data: { 'ID': ID },
+            dataType: "json",
+            success: function (data) {
+                var TableHtml = "";
+                if (data.ret.length <= 0)
+                    return false;
+
+                TableHtml = "<thead>" +
+                    "<tr>" +
+                    "<th>Seller</th>" +
+                    "<th>Product Name</th>" +
+                    "<th>Quantity</th>" +
+                    "<th>Price</th>" +
+                    "<th>Total</th>" +
+                    "</tr>" +
+                    "</thead>";
+                for (var i = 0; i < data.ret.length; i++) {
+                    TableHtml += "<tr>" +
+                        "<td>" + data.ret[i].Seller + "</td>" +
+                        "<td>" + data.ret[i].ProductName + "</td>" +
+                        "<td>" + data.ret[i].Qty + "</td>" +
+                        "<td>€" + data.ret[i].Price + "</td>" +
+                        "<td>€" + data.ret[i].Total + "</td>" +
+                        "</tr>";
+                }
+
+
+                /* Open this row */
+                this.src = "http://i.imgur.com/d4ICC.png";
+                oTable.fnOpen(nTr, fnFormatDetails(iTableCounter, TableHtml), 'details');
+                oInnerTable = $("#exampleTable_" + iTableCounter).dataTable({
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers"
+                });
+                iTableCounter = iTableCounter + 1;
+
+                return true;
+            }
+        });
+    }
+
+    //Run On HTML Build
+    $(document).ready(function () {
+
+        //Insert a 'details' column to the table
+        var nCloneTh = document.createElement('th');
+        var nCloneTd = document.createElement('td');
+        nCloneTd.innerHTML = '<img src="http://i.imgur.com/SD7Dz.png">';
+        nCloneTd.className = "center";
+
+        $('#OrderTable thead tr').each(function () {
+            this.insertBefore(nCloneTh, this.childNodes[0]);
+        });
+
+        $('#OrderTable tbody tr').each(function () {
+            this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
+        });
+
+        //Initialse DataTables, with no sorting on the 'details' column
+        oTable = $('#OrderTable').dataTable({
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "aoColumnDefs": [
+                { "bSortable": false, "aTargets": [0] }
+            ],
+            "aaSorting": [[2, 'asc']]
+        });
+
+        /* Add event listener for opening and closing details
+        * Note that the indicator for showing which row is open is not controlled by DataTables,
+        * rather it is done here
+        */
+
+        $('#OrderTable').on('click', "tbody td img", function () {
+            var nTr = $(this).parents('tr')[0];
+            if (oTable.fnIsOpen(nTr)) {
+                /* This row is already open - close it */
+                this.src = "http://i.imgur.com/SD7Dz.png";
+                oTable.fnClose(nTr);
+            }
+            else {
+                GenerateTableHtml(nTr.cells[1].innerText, nTr);
+
+            }
+        });
+
+
+    });
+</script>
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
+    <li>@Html.ActionLink("User Account", "UserAccount", "Account") <span class="divider">/</span></li>
+		<li class="active"> Pending orders</li>
+    </ul>	
+
+<h3>Pending Orders</h3>	
+<hr class="soft"/>
+<table id="OrderTable">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Item Count</th>
+            <th>Total</th>
+            <th>Approve</th>
+        </tr>
+    </thead>
+    @{
+
+        foreach (var CurCart in Model)
+        {
+            <tr>
+                <td>@CurCart.OrderId</td>
+                <td>@CurCart.Date.ToShortDateString()</td>    
+                <td>@CurCart.ItemCount</td>
+                <td>€@CurCart.Total</td>
+                <td id="Action_@CurCart.OrderId"><button class="btn btn-success" onclick="Approve('@CurCart.OrderId') " type="button"><i class="icon-check icon-white"></i> Approve Payment</button></td>
+            </tr>
+        }
+    }
+</table>

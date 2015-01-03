@@ -138,5 +138,14 @@ namespace SEWebiste_OwenAttard.Models
     public class UserDetails
     {
         public bool isSeller { get; set; }
+        public bool IsAdmin { get; set; }
     }
+
+    public class GeneralDetails
+    {
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public bool IsAdmin { get; set; }
+    }
+
 }

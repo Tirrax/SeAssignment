@@ -58,6 +58,11 @@ namespace DataAccess
             return entity.Users.SingleOrDefault(x => x.Username == Username);
         }
 
+        public IEnumerable<User> GetAllUsersExcept(string username)
+        {
+            return entity.Users.Where(x => x.Username != username);
+        }
+
         public static IEnumerable<Country> GetCountries()
         {
             return from ri in
@@ -72,6 +77,11 @@ namespace DataAccess
                    };
         }
 
+        public bool IsUserAdmin(string username)
+        {
+            var singleOrDefault = entity.Users.SingleOrDefault(x => x.Username == username);
 
+            return singleOrDefault != null && singleOrDefault.Roles.Any(x => x.RoleName == "Admin");
+        }
     }
 }

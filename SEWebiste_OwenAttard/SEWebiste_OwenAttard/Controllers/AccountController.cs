@@ -52,7 +52,8 @@ namespace SEWebiste_OwenAttard.Controllers
 
             UserDetails model = new UserDetails()
             {
-                isSeller = user.SellerApproved
+                isSeller = user.SellerApproved,
+                IsAdmin = user.Roles.Any(x => x.RoleName == "Admin")
             };
 
             return View(model);
@@ -158,7 +159,25 @@ namespace SEWebiste_OwenAttard.Controllers
         }
 
         //
+        public ActionResult ManageAdmins()
+        {
+            UsersBL user = new UsersBL();
 
+            if (!user.IsUserAdmin(User.Identity.Name))
+                return RedirectToAction("Index", "Home");
+
+            List<User> listUser = user.GetAllUsersExcept(User.Identity.Name).ToList();
+
+            List<GeneralDetails> model = listUser.Select(curUser => new GeneralDetails()
+            {
+                Email = curUser.Email,
+                Username = curUser.Username,
+                IsAdmin = curUser.Roles.Any(x => x.RoleName == "Admin")
+
+            }).ToList();
+
+            return View(model);
+        }
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)
         {

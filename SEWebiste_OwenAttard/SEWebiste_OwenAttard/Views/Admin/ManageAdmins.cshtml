@@ -1,6 +1,83 @@
-﻿@{
+﻿@model List<SEWebiste_OwenAttard.Models.GeneralDetails>
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+
+<script>
+    
+    function ManageAdmin(Username, IsAdmin)
+    {
+            $.ajax({
+                url: '@Url.Action("MakeAdmins", "Admin")',
+            type: 'POST',
+            data: {
+                'Username': Username,
+                'IsAdmin' : IsAdmin
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.ret) {
+                    document.getElementById("Action_" + Username).innerHTML = "Role changed";
+                }
+                else
+                {
+                    document.getElementById("Action_" + Username).innerHTML = "Role was not changed";
+                }
+
+            }
+        });
+    }
+
+    $(document).ready(function () {
+
+        //Initialse DataTables, with no sorting on the 'details' column
+        $('#OrderTable').dataTable({
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "aoColumnDefs": [
+                { "bSortable": false, "aTargets": [0] }
+            ],
+            "aaSorting": [[0, 'asc']]
+        });
+
+    });
+</script>
+
+@{
     ViewBag.Title = "ManageAdmins";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ManageAdmins</h2>
+<h3>Manage Admins</h3>	
+<hr class="soft"/>
+
+<table id="OrderTable">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Is Admin?</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    @{
+        foreach (var CurCart in Model)
+        {
+            <tr>
+                <td>@CurCart.Username</td>
+                <td>@CurCart.Email</td>    
+                <td>@CurCart.IsAdmin</td>
+                
+                @if (!CurCart.IsAdmin)
+                {
+                    <td id="Action_@CurCart.Username"><button class="btn btn-success" onclick="ManageAdmin('@CurCart.Username', true) " type="button"><i class="icon-plus icon-white"></i> Give Admin rights </button></td>
+                }
+                else
+                {
+                    <td id="Action_@CurCart.Username"><button class="btn btn-danger" onclick="ManageAdmin('@CurCart.Username', false) " type="button"><i class="icon-minus icon-white"></i> Remove Admin rights </button></td>
+                }
+            </tr>
+        }
+    }
+</table>

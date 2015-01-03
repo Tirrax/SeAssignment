@@ -20,7 +20,7 @@
            
         <br />
         
-        @if (!User.IsInRole("Admin"))
+        @if (!Model.IsAdmin)
         {
              if (!Model.isSeller)
              {
@@ -37,8 +37,8 @@
         {
             <h4>Admin Actions</h4>
             <hr class="soft"/>
-            <div>@Html.ActionLink("Manage Admins", "OrderHistory", "Orders", null, new {style="color:blue;"})</div>
-            <div>@Html.ActionLink("Approve Orders", "OrderHistory", "Orders", null, new {style="color:blue;"})</div>
+            <div>@Html.ActionLink("Manage Admins", "ManageAdmins", "Admin", null, new {style="color:blue;"})</div>
+            <div>@Html.ActionLink("Approve Orders", "PendingOrders", "Admin", null, new {style="color:blue;"})</div>
         }
 
     </div>

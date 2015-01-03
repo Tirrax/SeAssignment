@@ -91,6 +91,23 @@ namespace DataAccess
             return entity.Transactions.Where(x => x.Username == Username && (x.Date >= From && x.Date <= To)).AsEnumerable();
         }
 
+
+        public IEnumerable<Transaction> GetPendingTransactions()
+        {
+            return entity.Transactions.Where(x => !x.Payed);
+        }
+
+        public bool ApprovePament(int TransactionId)
+        {
+           Transaction trans = entity.Transactions.SingleOrDefault(x => x.TransactionID == TransactionId);
+
+            if (trans != null) 
+                trans.Payed = true;
+
+            int ret = entity.SaveChanges();
+
+            return ret >= 1;
+        }
     }
     
 }

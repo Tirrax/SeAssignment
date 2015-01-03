@@ -87,5 +87,18 @@ namespace BL
         {
             return UserRepository.GetCountries();
         }
+
+
+        public IEnumerable<User> GetAllUsersExcept(string username)
+        {
+            UserRepository userRepo = new UserRepository();
+            return userRepo.GetAllUsersExcept(username);
+        }
+
+        public bool IsUserAdmin(string username)
+        {
+            UserRepository userRepo = new UserRepository();
+            return userRepo.IsUserAdmin(username);
+        }
     }
 }

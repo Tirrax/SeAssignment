@@ -117,6 +117,12 @@
     });
 </script>
 
+<ul class="breadcrumb">
+		<li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
+		<li>@Html.ActionLink("User Account", "UserAccount", "Account") <span class="divider">/</span></li>
+		<li class="active"> Pending orders</li>
+    </ul>
+
 <h3>Orders</h3>	
 <hr class="soft"/>
 <table id="OrderTable">
