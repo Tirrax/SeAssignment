@@ -28,6 +28,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("DBTradersMarketModel", "FK_Transactions_Users", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Common.User), "Transactions", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Transaction), true)]
 [assembly: EdmRelationshipAttribute("DBTradersMarketModel", "RoleMenus", "Menus", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Menu), "Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Role))]
 [assembly: EdmRelationshipAttribute("DBTradersMarketModel", "UserRoles", "Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Role), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.User))]
+[assembly: EdmRelationshipAttribute("DBTradersMarketModel", "FK_Products_Users", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Common.User), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Product), true)]
 
 #endregion
 
@@ -680,7 +681,9 @@ namespace Common
         /// <param name="price">Initial value of the Price property.</param>
         /// <param name="dateListed">Initial value of the DateListed property.</param>
         /// <param name="categoryID">Initial value of the CategoryID property.</param>
-        public static Product CreateProduct(global::System.Int32 productID, global::System.String name, global::System.Int32 qty, global::System.String features, global::System.String image, global::System.Decimal price, global::System.DateTime dateListed, global::System.Int32 categoryID)
+        /// <param name="seller">Initial value of the Seller property.</param>
+        /// <param name="handleDeliveries">Initial value of the HandleDeliveries property.</param>
+        public static Product CreateProduct(global::System.Int32 productID, global::System.String name, global::System.Int32 qty, global::System.String features, global::System.String image, global::System.Decimal price, global::System.DateTime dateListed, global::System.Int32 categoryID, global::System.String seller, global::System.Boolean handleDeliveries)
         {
             Product product = new Product();
             product.ProductID = productID;
@@ -691,6 +694,8 @@ namespace Common
             product.Price = price;
             product.DateListed = dateListed;
             product.CategoryID = categoryID;
+            product.Seller = seller;
+            product.HandleDeliveries = handleDeliveries;
             return product;
         }
 
@@ -896,7 +901,7 @@ namespace Common
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String Seller
         {
@@ -908,7 +913,7 @@ namespace Common
             {
                 OnSellerChanging(value);
                 ReportPropertyChanging("Seller");
-                _Seller = StructuralObject.SetValidValue(value, true, "Seller");
+                _Seller = StructuralObject.SetValidValue(value, false, "Seller");
                 ReportPropertyChanged("Seller");
                 OnSellerChanged();
             }
@@ -916,6 +921,54 @@ namespace Common
         private global::System.String _Seller;
         partial void OnSellerChanging(global::System.String value);
         partial void OnSellerChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean HandleDeliveries
+        {
+            get
+            {
+                return _HandleDeliveries;
+            }
+            set
+            {
+                OnHandleDeliveriesChanging(value);
+                ReportPropertyChanging("HandleDeliveries");
+                _HandleDeliveries = StructuralObject.SetValidValue(value, "HandleDeliveries");
+                ReportPropertyChanged("HandleDeliveries");
+                OnHandleDeliveriesChanged();
+            }
+        }
+        private global::System.Boolean _HandleDeliveries;
+        partial void OnHandleDeliveriesChanging(global::System.Boolean value);
+        partial void OnHandleDeliveriesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> Deleted
+        {
+            get
+            {
+                return _Deleted;
+            }
+            set
+            {
+                OnDeletedChanging(value);
+                ReportPropertyChanging("Deleted");
+                _Deleted = StructuralObject.SetValidValue(value, "Deleted");
+                ReportPropertyChanged("Deleted");
+                OnDeletedChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _Deleted;
+        partial void OnDeletedChanging(Nullable<global::System.Boolean> value);
+        partial void OnDeletedChanged();
 
         #endregion
 
@@ -999,6 +1052,44 @@ namespace Common
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TransactionDetail>("DBTradersMarketModel.FK_TransactionDetails_Products", "TransactionDetails", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBTradersMarketModel", "FK_Products_Users", "User")]
+        public User User
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("DBTradersMarketModel.FK_Products_Users", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("DBTradersMarketModel.FK_Products_Users", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> UserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("DBTradersMarketModel.FK_Products_Users", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("DBTradersMarketModel.FK_Products_Users", "User", value);
                 }
             }
         }
@@ -2121,6 +2212,28 @@ namespace Common
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Role>("DBTradersMarketModel.UserRoles", "Roles", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBTradersMarketModel", "FK_Products_Users", "Product")]
+        public EntityCollection<Product> Products
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Product>("DBTradersMarketModel.FK_Products_Users", "Product");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Product>("DBTradersMarketModel.FK_Products_Users", "Product", value);
                 }
             }
         }

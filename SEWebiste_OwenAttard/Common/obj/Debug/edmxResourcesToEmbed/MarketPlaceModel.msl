@@ -24,6 +24,8 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="DBTradersMarketModel.Product">
         <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="HandleDeliveries" ColumnName="HandleDeliveries" />
           <ScalarProperty Name="Seller" ColumnName="Seller" />
           <ScalarProperty Name="ProductID" ColumnName="ProductID" />
           <ScalarProperty Name="Name" ColumnName="Name" />

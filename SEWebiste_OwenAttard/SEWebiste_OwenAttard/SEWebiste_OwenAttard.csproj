@@ -193,6 +193,10 @@
     <Compile Include="Models\OrderModels.cs" />
     <Compile Include="Models\PayPalModel.cs" />
     <Compile Include="Models\ProductModels.cs" />
+    <Compile Include="Observer\IObservable.cs" />
+    <Compile Include="Observer\IObserver.cs" />
+    <Compile Include="Observer\ProductObservable.cs" />
+    <Compile Include="Observer\UserObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -269,6 +273,9 @@
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery.jeditable.js" />
+    <Content Include="Scripts\jquery.signalR-1.1.2.js" />
+    <Content Include="Scripts\jquery.signalR-1.1.2.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -527,6 +534,7 @@
     <Content Include="Views\Admin\ManageAdmins.cshtml" />
     <Content Include="Views\Admin\PendingOrders.cshtml" />
     <Content Include="Views\Products\AddProduct.cshtml" />
+    <Content Include="Views\Products\ManageProducts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

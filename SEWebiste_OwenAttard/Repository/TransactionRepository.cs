@@ -108,6 +108,11 @@ namespace DataAccess
 
             return ret >= 1;
         }
+
+        public bool ProductBought(int ProductID)
+        {
+            return entity.TransactionDetails.Any(x => x.ProductID == ProductID);
+        }
     }
     
 }

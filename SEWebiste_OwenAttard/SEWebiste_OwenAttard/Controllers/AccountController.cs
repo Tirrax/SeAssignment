@@ -178,6 +178,28 @@ namespace SEWebiste_OwenAttard.Controllers
 
             return View(model);
         }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult DeleteUser()
+        {
+            try
+            {
+                if (!User.Identity.IsAuthenticated)
+                    return Json(new { error = "You are not logged in." }, JsonRequestBehavior.AllowGet);
+
+                new UsersBL().DeleteUser(User.Identity.Name);
+
+                FormsAuthentication.SignOut();
+
+                return Json(new { ret = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ret = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)
         {

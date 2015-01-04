@@ -14,6 +14,11 @@ namespace SEWebiste_OwenAttard.Models
         public decimal price { get; set; }
         public string Desc { get; set; }
         public int Qty{ get; set; }
+        public bool HandleDeliveries { get; set; }
+
+        //Categories
+        public int SelectedCatID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> Categories { get; set; }
     }
 
     public class ProductDisplayModel

@@ -36,5 +36,30 @@ namespace BL
             return new ProductsRepository().GetProductsByName(Name);
         }
 
+        public IEnumerable<Product> GetProductsBySeller(string Name)
+        {
+            return new ProductsRepository().GetProductsBySeller(Name);
+        }
+
+        public bool UpdateProduct(Product NewProd)
+        {
+            return new ProductsRepository().UpdateProduct(NewProd);
+        }
+
+        public bool DeleteProduct(int ProdID)
+        {
+            return new ProductsRepository().DeleteProduct(ProdID);
+        }
+
+        public bool AddProduct(Product AddProduct)
+        {
+            return new ProductsRepository().AddProduct(AddProduct);
+        }
+
+        public IEnumerable<Product> GetLatestProducts()
+        {
+            return new ProductsRepository().GetLatestProducts();
+        }
+
     }
 }

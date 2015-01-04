@@ -4,6 +4,34 @@
     ViewBag.Title = "UserAccount";
 }
 
+<script>
+    function DeleteAccount()
+    {
+        if (confirm('Are you sure you want to delete your account? Once deleted it cannot be restored.')) {
+            $.ajax({
+                url: '@Url.Action("DeleteUser", "Account")',
+                  type: 'POST',
+                  data: {
+                  },
+                  dataType: "json",
+                  success: function (data) {
+                      if (data.ret) {
+                          location.href = '@Url.Content("~/Home/Index/")';
+                      }
+                      else {
+                          var txt = "<div  id=\"Error\" class=\"alert alert-block alert-error fade in\">" +
+                                  "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>" +
+                                  "Could not perfom action. Please check inputted data. if this problem persisits contact admin." +
+                                  "</div>";
+
+                          $("#MSG")[0].innerHTML = txt;
+                      }
+
+                  }
+              });
+        } 
+    }
+</script>
 
 <ul class="breadcrumb">
 		<li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
@@ -12,8 +40,21 @@
 	<h3>User Account</h3>	
 <hr class="soft"/>
 <br />
-
+<div style="margin-left: 20px; margin-right: 20px;">
     <div class="form-horizontal">
+        
+        <div id="MSG"></div>
+
+
+        <h4>Account Actions</h4>
+        <hr class="soft"/>
+        <div>
+            <a style="color: blue" onclick="DeleteAccount()">Delete Account</a>
+        </div>
+           
+        <br />
+
+        
         <h4>Orders Actions</h4>
         <hr class="soft"/>
         <div>@Html.ActionLink("Order History", "OrderHistory", "Orders", null, new {style="color:blue;"})</div>
@@ -22,27 +63,27 @@
         
         @if (!Model.IsAdmin)
         {
-             if (!Model.isSeller)
-             {
-                 <h4>Upgrade</h4>
-                 <hr class="soft"/>
-                 <div>@Html.ActionLink("Upgrade to seller account", "index", "Home", null, new {style = "color:blue;"})</div>
-             }
-             else
-             {
-                  <h4>Buyer Actions</h4>
-                  <hr class="soft" />
-                  <div>@Html.ActionLink("Add Product", "AddProduct", "Products", null, new { style = "color:blue;" })</div>
-                  <div>@Html.ActionLink("Manage Products", "AddProduct", "Products", null, new { style = "color:blue;" })</div>
+            if (!Model.isSeller)
+            {
+                <h4>Upgrade</h4>
+                <hr class="soft"/>
+                <div>@Html.ActionLink("Upgrade to seller account", "index", "Home", null, new {style = "color:blue;"})</div>
+            }
+            else
+            {
+                <h4>Buyer Actions</h4>
+                <hr class="soft" />
+                <div>@Html.ActionLink("Add Product", "AddProduct", "Products", null, new { style = "color:blue;" })</div>
+                <div>@Html.ActionLink("Manage Products", "AddProduct", "Products", null, new { style = "color:blue;" })</div>
             
-             }
+            }
         }
         else
         {
             <h4>Buyer Actions</h4>
             <hr class="soft" />
             <div>@Html.ActionLink("Add Product", "AddProduct", "Products", null, new { style = "color:blue;" })</div>
-            <div>@Html.ActionLink("Manage Products", "AddProduct", "Products", null, new { style = "color:blue;" })</div>
+            <div>@Html.ActionLink("Manage Products", "ManageProducts", "Products", null, new { style = "color:blue;" })</div>
             <br />
             
             <h4>Admin Actions</h4>
@@ -51,6 +92,10 @@
             <div>@Html.ActionLink("Approve Orders", "PendingOrders", "Admin", null, new {style="color:blue;"})</div>
         }
         
+
+        
         <br />
         <br />
     </div>
+</div>
+

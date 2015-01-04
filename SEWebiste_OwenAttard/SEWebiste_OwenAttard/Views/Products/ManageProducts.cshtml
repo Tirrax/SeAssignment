@@ -1,0 +1,196 @@
+﻿@model List<SEWebiste_OwenAttard.Models.ProductModels>
+
+@{
+    ViewBag.Title = "Manage Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/jquery.jeditable.js"></script>
+<script>
+
+    function ShowMsg(Error) {
+        var txt = "";
+        if (!Error) {
+            txt = "<div  id=\"Sucess\" class=\"alert alert-success fade in\">" +
+                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>" +
+                "Action success" +
+                "</div>";
+
+
+
+        } else {
+            txt = "<div  id=\"Error\" class=\"alert alert-block alert-error fade in\">" +
+                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>" +
+                "Could not perfom action. Please check inputted data. if this problem persisits contact admin." +
+                "</div>";
+
+        }
+
+        $("#MSG")[0].innerHTML = txt;
+    }
+
+    (function ($) {
+        $.fn.invisible = function () {
+            return this.each(function () {
+                $(this).css("display", "none");
+            });
+        };
+        $.fn.visible = function () {
+            return this.each(function () {
+                $(this).css("display", "initial");
+            });
+        };
+    }(jQuery));
+
+    function Delete(ProdID) {
+        $.ajax({
+            url: '@Url.Action("DeleteProducts", "Products")',
+                type: 'POST',
+                data: {
+                    'ProdID': ProdID,
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.ret) {
+                        var tableRow = $("#Prod_" + ProdID);
+                        tableRow.remove();
+                        ShowMsg(false);
+                    }
+                    else {
+                        ShowMsg(true);
+                    }
+
+                }
+            });
+        }
+
+    function Update(ProdId) {
+        var tableRow = $("#" + ProdId)[0];
+        var check = document.getElementById('HandleDeliveries_' + ProdId);
+        $.ajax({
+            url: '@Url.Action("UpdateProduct", "Products")',
+            type: 'POST',
+            data: {
+                'ProdID' : ProdId,
+                'ProductName': tableRow.cells[1].innerText,
+                'Qty': tableRow.cells[2].innerText,
+                'Price': tableRow.cells[3].innerText,
+                'Desc': tableRow.cells[4].innerText,
+                'HandleDeliveries': check.checked
+            },
+            dataType: "json",
+            success: function(data) {
+                if (data.ret) {
+                    ShowMsg(false);
+                    $("#Action_" + ProdId).prop('disabled', true);
+                } else {
+                    ShowMsg(true);
+                }
+
+            }
+        });
+    }   
+
+    function CheckBoxClick(ProdId) {
+        $("#Action_" + ProdId).prop('disabled', false);
+    }
+
+    var oTable;
+
+    //Run On HTML Build
+    $(document).ready(function () {
+
+        //Initialse DataTables, with no sorting on the 'details' column
+        oTable = $('#Products').dataTable({
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "aoColumnDefs": [
+                { "bSortable": false, "aTargets": [0] }
+            ],
+            "aaSorting": [[1, 'asc']]
+        });
+
+        oTable.$('td.Edit').editable(function (value, settings) { return (value); },
+        {
+            "callback": function (sValue, y) {
+                var aPos = oTable.fnGetPosition(this);
+                oTable.fnUpdate(sValue, aPos[0], aPos[1]);
+
+                var rowID = this.parentNode.getAttribute('id');
+                $("#Action_" + rowID).prop('disabled', false);
+
+            },
+            "submitdata": function (value, settings) {
+                return {
+                    "row_id": this.parentNode.getAttribute('id'),
+                    "column": oTable.fnGetPosition(this)[2]
+                };
+            },
+            "height": "30px",
+            "width": "100%"
+
+        });
+
+    });
+</script>
+
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
+    <li>@Html.ActionLink("User Account", "UserAccount", "Account") <span class="divider">/</span></li>
+		<li class="active"> Manage Products</li>
+    </ul>
+
+<h3>Manage Products</h3>	
+<hr class="soft"/>
+
+
+
+<div id="MSG"></div>
+
+<table id="Products">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Handle Deliveries</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    @{
+        foreach (var CurCart in Model)
+        {
+            <tr id="@CurCart.ID">
+                <td>
+                    <img width="60" src="/ProductImages/@CurCart.ImgPath" alt="" />
+                </td>
+                <td class="Edit">@CurCart.Name</td>
+                <td class="Edit">@CurCart.Qty</td>    
+                <td class="Edit">@CurCart.price</td>
+                <td class="Edit">@CurCart.Desc</td>
+                <td>
+                    
+                    @if (CurCart.HandleDeliveries)
+                    {
+                        <input type="checkbox" onclick="CheckBoxClick(@CurCart.ID)" id="HandleDeliveries_@CurCart.ID" checked/> 
+                    }
+                    else
+                    {
+                        <input type="checkbox" onclick="CheckBoxClick(@CurCart.ID)" id="HandleDeliveries_@CurCart.ID"  /> 
+                    }
+                   
+                </td>
+                <td>
+                    <button id="Action_@CurCart.ID" disabled style="width: 100%; height: 30px" class="btn btn-success" onclick="Update('@CurCart.ID') " type="button"><i class="icon-check icon-white"></i> Update </button>
+                    <button style="width: 100%; height: 30px" class="btn btn-danger" onclick="Delete('@CurCart.ID') " type="button"><i class="icon-remove icon-white"></i> Delete </button>
+                </td>              
+            </tr>
+        }
+    }
+</table>

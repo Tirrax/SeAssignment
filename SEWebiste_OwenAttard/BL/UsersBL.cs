@@ -100,5 +100,11 @@ namespace BL
             UserRepository userRepo = new UserRepository();
             return userRepo.IsUserAdmin(username);
         }
+
+        public bool DeleteUser(string Username)
+        {
+            UserRepository userRepo = new UserRepository();
+            return userRepo.DeleteUser(Username);
+        }
     }
 }

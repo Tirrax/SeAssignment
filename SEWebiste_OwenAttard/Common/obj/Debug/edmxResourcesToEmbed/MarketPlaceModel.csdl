@@ -45,6 +45,10 @@
       <End Role="Roles" EntitySet="Roles" />
       <End Role="Users" EntitySet="Users" />
     </AssociationSet>
+    <AssociationSet Name="FK_Products_Users" Association="DBTradersMarketModel.FK_Products_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Category">
     <Key>
@@ -83,7 +87,10 @@
     <NavigationProperty Name="Category" Relationship="DBTradersMarketModel.FK_Products_Categories" FromRole="Products" ToRole="Categories" />
     <NavigationProperty Name="ShoppingCarts" Relationship="DBTradersMarketModel.FK_ShoppingCart_Products" FromRole="Products" ToRole="ShoppingCart" />
     <NavigationProperty Name="TransactionDetails" Relationship="DBTradersMarketModel.FK_TransactionDetails_Products" FromRole="Products" ToRole="TransactionDetails" />
-    <Property Type="String" Name="Seller" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Seller" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Type="Boolean" Name="HandleDeliveries" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="DBTradersMarketModel.FK_Products_Users" FromRole="Product" ToRole="User" />
+    <Property Type="Boolean" Name="Deleted" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -146,6 +153,7 @@
     <NavigationProperty Name="ShoppingCarts" Relationship="DBTradersMarketModel.FK_ShoppingCart_Users" FromRole="Users" ToRole="ShoppingCart" />
     <NavigationProperty Name="Transactions" Relationship="DBTradersMarketModel.FK_Transactions_Users" FromRole="Users" ToRole="Transactions" />
     <NavigationProperty Name="Roles" Relationship="DBTradersMarketModel.UserRoles" FromRole="Users" ToRole="Roles" />
+    <NavigationProperty Name="Products" Relationship="DBTradersMarketModel.FK_Products_Users" FromRole="User" ToRole="Product" />
   </EntityType>
   <Association Name="FK_Categories_Categories">
     <End Role="Categories" Type="DBTradersMarketModel.Category" Multiplicity="0..1" />
@@ -238,5 +246,19 @@
   <Association Name="UserRoles">
     <End Role="Roles" Type="DBTradersMarketModel.Role" Multiplicity="*" />
     <End Role="Users" Type="DBTradersMarketModel.User" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_Products_Users">
+    <End Type="DBTradersMarketModel.User" Role="User" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DBTradersMarketModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Seller" />
+      </Dependent>
+    </ReferentialConstraint>
   </Association>
 </Schema>

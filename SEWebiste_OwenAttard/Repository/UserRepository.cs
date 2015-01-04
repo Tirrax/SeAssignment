@@ -83,5 +83,14 @@ namespace DataAccess
 
             return singleOrDefault != null && singleOrDefault.Roles.Any(x => x.RoleName == "Admin");
         }
+
+        public bool DeleteUser(string Username)
+        {
+            User user = GetUserByUsername(Username);
+            entity.Users.DeleteObject(user);
+            entity.SaveChanges();
+
+            return true;
+        }
     }
 }

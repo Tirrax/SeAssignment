@@ -6,14 +6,31 @@ using System.Web;
 using System.Web.Mvc;
 using BL;
 using Common;
+using Microsoft.AspNet.SignalR;
 using Repository;
 using SEWebiste_OwenAttard.Models;
 
 namespace SEWebiste_OwenAttard.Controllers
 {
-    [Authorize]
+    [System.Web.Mvc.Authorize]
     public class ProductsController : Controller
     {
+
+        public IEnumerable<System.Web.Mvc.SelectListItem> GetCategories()
+        {
+            List<Category> mainCategories = new List<Category>();
+            List<Category> subCategories = new List<Category>();
+            new CategoriesBL().GetAllCategories(ref mainCategories, ref subCategories);
+
+            var Categories = subCategories.Select(x => new System.Web.Mvc.SelectListItem
+            {
+                Value = x.CategoryID.ToString(),
+                Text = x.Name.ToString()
+            }).OrderBy(x => x.Text);
+
+            return new System.Web.Mvc.SelectList(Categories, "Value", "Text");
+        }
+
         //
         // GET: /Products/
         public ActionResult ProductsDisplay(int ID)
@@ -121,7 +138,7 @@ namespace SEWebiste_OwenAttard.Controllers
         }
 
 
-        [Authorize]
+        [System.Web.Mvc.Authorize]
         public ActionResult ShoppingCart()
         {
             ShoppingCartBL ShopServ = new ShoppingCartBL();
@@ -220,33 +237,151 @@ namespace SEWebiste_OwenAttard.Controllers
         
         public ActionResult AddProduct()
         {
-
-            return View();
+            var model = new ProductModels()
+            {
+                Categories = GetCategories(),
+            };
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult AddProduct(ProductModels model, HttpPostedFileBase file)
         {
-            if (file != null)
+            bool Added = false;
+            try
             {
-                string pic = System.IO.Path.GetFileName(file.FileName);
-                string path = System.IO.Path.Combine(
-                                       Server.MapPath("~/images/profile"), pic);
-                // file is uploaded
-                file.SaveAs(path);
-
-                // save the image path path to the database or you can send image 
-                // directly to database
-                // in-case if you want to store byte[] ie. for DB
-                using (MemoryStream ms = new MemoryStream())
+                if (file != null)
                 {
-                    file.InputStream.CopyTo(ms);
-                    byte[] array = ms.GetBuffer();
+                    Guid g = Guid.NewGuid();
+                    string GuidString = Convert.ToBase64String(g.ToByteArray());
+                    GuidString = GuidString.Replace("=", "");
+                    GuidString = GuidString.Replace("+", "");
+                    GuidString = GuidString.Replace("/", "");
+                    GuidString = GuidString.Replace("\\", "");
+                    GuidString = GuidString.Replace(".", "");
+                    string extension = Path.GetExtension(file.FileName);
+
+                    string pic = GuidString + extension;
+                    string path = System.IO.Path.Combine(
+                                           Server.MapPath("~/ProductImages"), pic);
+                    // file is uploaded
+                    file.SaveAs(path);
+
+                    ProductBL productserv = new ProductBL();
+                    Product prod = new Product()
+                    {
+                        Name = model.Name,
+                        CategoryID = model.SelectedCatID,
+                        Features = model.Desc,
+                        Qty = model.Qty,
+                        Price = model.price,
+                        Image = pic,
+                        Seller = User.Identity.Name,
+                        DateListed = DateTime.Now,
+                        HandleDeliveries = model.HandleDeliveries
+                    };
+
+                    Added = productserv.AddProduct(prod);
+                    
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+            finally
+            {
+                if (!Added)
+                {
+                    ModelState.AddModelError("", "Could not be added due to internal exception");
+                    TempData["Success"] = false;
+                }
+                else
+                {
+                    TempData["Success"] = true;
                 }
 
             }
-            return View();
+            model.Categories = GetCategories();
+            return View(model);
         }
 
+        public ActionResult ManageProducts()
+        {
+            string username = User.Identity.Name;
+            List<ProductModels> modelList = new ProductBL().GetProductsBySeller(username).Select(
+                    cur => new ProductModels()
+                    {
+                        Desc = cur.Features,
+                        ImgPath = cur.Image,
+                        ID = cur.ProductID,
+                        Name = cur.Name,
+                        Qty = cur.Qty,
+                        price = cur.Price,
+                        HandleDeliveries = cur.HandleDeliveries
+                    }
+                ).ToList();
+
+            return View(modelList);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult DeleteProducts(int ProdID)
+        {
+            try
+            {
+                if (!User.Identity.IsAuthenticated)
+                    return Json(new { error = "You are not logged in." }, JsonRequestBehavior.AllowGet);
+
+                ProductBL prodBL = new ProductBL();
+                Product prod = prodBL.GetProductByID(ProdID);
+
+                bool Success = prodBL.DeleteProduct(ProdID);
+                
+                if (Success)
+                {
+                    string path = System.IO.Path.Combine(
+                        Server.MapPath("~/ProductImages"), prod.Image);
+
+                    System.IO.File.Delete(path);
+
+                }
+                return Json(new { ret = Success }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ret = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult UpdateProduct(int ProdID, string ProductName, int Qty, decimal Price, string Desc, bool HandleDeliveries)
+        {
+            try
+            {
+                if (!User.Identity.IsAuthenticated)
+                    return Json(new { error = "You are not logged in." }, JsonRequestBehavior.AllowGet);
+
+                ProductBL prodBL = new ProductBL();
+
+                Product prod =  prodBL.GetProductByID(ProdID);
+
+                prod.Name = ProductName;
+                prod.Qty = Qty;
+                prod.Price = Price;
+                prod.Features = Desc;
+                prod.HandleDeliveries = HandleDeliveries;
+                prodBL.UpdateProduct(prod);
+
+                return Json(new { ret = true}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ret = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

@@ -24,6 +24,10 @@
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Products" EntitySet="Products" />
           </AssociationSet>
+          <AssociationSet Name="FK_Products_Users" Association="DBTradersMarketModel.Store.FK_Products_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
           <AssociationSet Name="FK_RoleMenus_Menus" Association="DBTradersMarketModel.Store.FK_RoleMenus_Menus">
             <End Role="Menus" EntitySet="Menus" />
             <End Role="RoleMenus" EntitySet="RoleMenus" />
@@ -91,7 +95,9 @@
           <Property Name="Price" Type="decimal" Nullable="false" Precision="8" Scale="2" />
           <Property Name="DateListed" Type="datetime" Nullable="false" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
-          <Property Name="Seller" Type="varchar" MaxLength="50" />
+          <Property Name="Seller" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="HandleDeliveries" Type="bit" Nullable="false" />
+          <Property Name="Deleted" Type="bit" />
         </EntityType>
         <EntityType Name="RoleMenus">
           <Key>
@@ -184,6 +190,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Products_Users">
+          <End Role="Users" Type="DBTradersMarketModel.Store.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Products" Type="DBTradersMarketModel.Store.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="Seller" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RoleMenus_Menus">
           <End Role="Menus" Type="DBTradersMarketModel.Store.Menus" Multiplicity="1" />
           <End Role="RoleMenus" Type="DBTradersMarketModel.Store.RoleMenus" Multiplicity="*" />
@@ -221,7 +241,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ShoppingCart_Users">
-          <End Role="Users" Type="DBTradersMarketModel.Store.Users" Multiplicity="1" />
+          <End Role="Users" Type="DBTradersMarketModel.Store.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ShoppingCart" Type="DBTradersMarketModel.Store.ShoppingCart" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
@@ -245,7 +267,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TransactionDetails_Transactions">
-          <End Role="Transactions" Type="DBTradersMarketModel.Store.Transactions" Multiplicity="1" />
+          <End Role="Transactions" Type="DBTradersMarketModel.Store.Transactions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="TransactionDetails" Type="DBTradersMarketModel.Store.TransactionDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Transactions">
@@ -257,7 +281,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Transactions_Users">
-          <End Role="Users" Type="DBTradersMarketModel.Store.Users" Multiplicity="1" />
+          <End Role="Users" Type="DBTradersMarketModel.Store.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Transactions" Type="DBTradersMarketModel.Store.Transactions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
@@ -269,7 +295,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserRoles_Roles">
-          <End Role="Roles" Type="DBTradersMarketModel.Store.Roles" Multiplicity="1" />
+          <End Role="Roles" Type="DBTradersMarketModel.Store.Roles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="UserRoles" Type="DBTradersMarketModel.Store.UserRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Roles">
@@ -281,7 +309,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserRoles_Users">
-          <End Role="Users" Type="DBTradersMarketModel.Store.Users" Multiplicity="1" />
+          <End Role="Users" Type="DBTradersMarketModel.Store.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="UserRoles" Type="DBTradersMarketModel.Store.UserRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
@@ -341,6 +371,10 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_Products_Users" Association="DBTradersMarketModel.FK_Products_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -379,7 +413,10 @@
           <NavigationProperty Name="Category" Relationship="DBTradersMarketModel.FK_Products_Categories" FromRole="Products" ToRole="Categories" />
           <NavigationProperty Name="ShoppingCarts" Relationship="DBTradersMarketModel.FK_ShoppingCart_Products" FromRole="Products" ToRole="ShoppingCart" />
           <NavigationProperty Name="TransactionDetails" Relationship="DBTradersMarketModel.FK_TransactionDetails_Products" FromRole="Products" ToRole="TransactionDetails" />
-          <Property Type="String" Name="Seller" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Seller" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Type="Boolean" Name="HandleDeliveries" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="DBTradersMarketModel.FK_Products_Users" FromRole="Product" ToRole="User" />
+          <Property Type="Boolean" Name="Deleted" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -442,6 +479,7 @@
           <NavigationProperty Name="ShoppingCarts" Relationship="DBTradersMarketModel.FK_ShoppingCart_Users" FromRole="Users" ToRole="ShoppingCart" />
           <NavigationProperty Name="Transactions" Relationship="DBTradersMarketModel.FK_Transactions_Users" FromRole="Users" ToRole="Transactions" />
           <NavigationProperty Name="Roles" Relationship="DBTradersMarketModel.UserRoles" FromRole="Users" ToRole="Roles" />
+          <NavigationProperty Name="Products" Relationship="DBTradersMarketModel.FK_Products_Users" FromRole="User" ToRole="Product" />
         </EntityType>
         <Association Name="FK_Categories_Categories">
           <End Role="Categories" Type="DBTradersMarketModel.Category" Multiplicity="0..1" />
@@ -535,6 +573,20 @@
           <End Role="Roles" Type="DBTradersMarketModel.Role" Multiplicity="*" />
           <End Role="Users" Type="DBTradersMarketModel.User" Multiplicity="*" />
         </Association>
+        <Association Name="FK_Products_Users">
+          <End Type="DBTradersMarketModel.User" Role="User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DBTradersMarketModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Seller" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -564,6 +616,8 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="DBTradersMarketModel.Product">
               <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="HandleDeliveries" ColumnName="HandleDeliveries" />
                 <ScalarProperty Name="Seller" ColumnName="Seller" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

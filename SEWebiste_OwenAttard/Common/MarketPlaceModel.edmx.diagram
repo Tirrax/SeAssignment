@@ -22,6 +22,7 @@
         <AssociationConnector Association="DBTradersMarketModel.FK_Transactions_Users" ManuallyRouted="false" />
         <AssociationConnector Association="DBTradersMarketModel.RoleMenus" ManuallyRouted="false" />
         <AssociationConnector Association="DBTradersMarketModel.UserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="DBTradersMarketModel.FK_Products_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

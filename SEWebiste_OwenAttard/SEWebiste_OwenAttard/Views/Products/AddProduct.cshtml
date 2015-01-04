@@ -3,7 +3,9 @@
 @{
     ViewBag.Title = "AddProduct";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
+
 <ul class="breadcrumb">
     <li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
     <li>@Html.ActionLink("User Account", "UserAccount", "Account") <span class="divider">/</span></li>
@@ -11,52 +13,85 @@
 </ul>
 
  <h4>Add Product</h4>
-<hr class="soft"/>
+<div class="well">
 
-@using (Html.BeginForm("AddProduct", "Products", FormMethod.Post,
-                            new { enctype = "multipart/form-data" }))
-{
-    @Html.ValidationSummary(true)
+    @using (Html.BeginForm("AddProduct", "Products", FormMethod.Post,
+        new { enctype = "multipart/form-data" }))
+    {
 
-    
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
+        if (TempData["Success"] != null && !Convert.ToBoolean(TempData["Success"]))
+        {
+        <div class="alert alert-block alert-error fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.price)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.price)
-            @Html.ValidationMessageFor(model => model.price)
-        </div>
+            @Html.ValidationSummary(true)
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Desc)
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Desc)
-            @Html.ValidationMessageFor(model => model.Desc)
-        </div>
+        }
+        else if (TempData["Success"] != null && Convert.ToBoolean(TempData["Success"]))
+        {
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                Product Added
+            </div>
+        }
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Qty)
+        <div class="form-horizontal">
+            <h4>Product Information</h4>
+            <div class="control-group">
+                <label class="control-label">Product Name<sup>*</sup></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Name, new { @placeholder = "Name" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Price<sup>*</sup></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.price, new { @placeholder = "Price" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Quantity<sup>*</sup></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Qty, new { @placeholder = "Qty" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Description<sup>*</sup></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Desc, new { @placeholder = "Description" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Category<sup>*</sup></label>
+                <div class="controls">
+                    @Html.DropDownListFor(m => m.SelectedCatID, Model.Categories)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label">Upload Image<sup>*</sup></label>
+                <div class="controls">
+                    <input type="file" name="file" id="file" style="width: 100%;" /> 
+                </div>
+            </div>  
+            
+            <div class="control-group">
+                
+                <div class="controls">
+                   @Html.CheckBoxFor(m => m.HandleDeliveries) <label class="control-label">Handle Deliveries </label>
+                </div>
+            </div>
+                      
+            <br/>
+        
+            <div class="control-group">
+                <div class="controls">
+                    <input class="btn btn-large btn-success" type="submit" value="Add Product" />
+                </div>
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Qty)
-            @Html.ValidationMessageFor(model => model.Qty)
-        </div>
-    <div class="editor-field">
-        <label for="file">Upload Image:</label> 
-        <input type="file" name="file" id="file" style="width: 100%;" /> 
-    </div>
-    <br/>
-        <p>
-            <input type="submit" value="Create" />
-        </p>
  
-}
+    }
+</div>
+
