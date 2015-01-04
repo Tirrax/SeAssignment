@@ -17,6 +17,7 @@ namespace SEWebiste_OwenAttard
 
     public class MvcApplication : System.Web.HttpApplication
     {
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -26,6 +27,8 @@ namespace SEWebiste_OwenAttard
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            RouteTable.Routes.MapHubs();
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)

@@ -30,15 +30,27 @@
              }
              else
              {
-                 <h4>Your account has been approved as a seller account</h4>
+                  <h4>Buyer Actions</h4>
+                  <hr class="soft" />
+                  <div>@Html.ActionLink("Add Product", "AddProduct", "Products", null, new { style = "color:blue;" })</div>
+                  <div>@Html.ActionLink("Manage Products", "AddProduct", "Products", null, new { style = "color:blue;" })</div>
+            
              }
         }
         else
         {
+            <h4>Buyer Actions</h4>
+            <hr class="soft" />
+            <div>@Html.ActionLink("Add Product", "AddProduct", "Products", null, new { style = "color:blue;" })</div>
+            <div>@Html.ActionLink("Manage Products", "AddProduct", "Products", null, new { style = "color:blue;" })</div>
+            <br />
+            
             <h4>Admin Actions</h4>
             <hr class="soft"/>
             <div>@Html.ActionLink("Manage Admins", "ManageAdmins", "Admin", null, new {style="color:blue;"})</div>
             <div>@Html.ActionLink("Approve Orders", "PendingOrders", "Admin", null, new {style="color:blue;"})</div>
         }
-
+        
+        <br />
+        <br />
     </div>

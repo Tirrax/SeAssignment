@@ -1,0 +1,62 @@
+﻿@model SEWebiste_OwenAttard.Models.ProductModels
+
+@{
+    ViewBag.Title = "AddProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
+    <li>@Html.ActionLink("User Account", "UserAccount", "Account") <span class="divider">/</span></li>
+    <li class="active"> Add Product</li>
+</ul>
+
+ <h4>Add Product</h4>
+<hr class="soft"/>
+
+@using (Html.BeginForm("AddProduct", "Products", FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.price)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.price)
+            @Html.ValidationMessageFor(model => model.price)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Desc)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Desc)
+            @Html.ValidationMessageFor(model => model.Desc)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Qty)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Qty)
+            @Html.ValidationMessageFor(model => model.Qty)
+        </div>
+    <div class="editor-field">
+        <label for="file">Upload Image:</label> 
+        <input type="file" name="file" id="file" style="width: 100%;" /> 
+    </div>
+    <br/>
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+ 
+}

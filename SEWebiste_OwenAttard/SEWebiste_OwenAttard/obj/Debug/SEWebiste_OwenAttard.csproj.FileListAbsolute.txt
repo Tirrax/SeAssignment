@@ -90,3 +90,12 @@ C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAt
 C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\SEWebiste_OwenAttard\bin\BL.pdb
 C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\SEWebiste_OwenAttard\bin\Common.pdb
 C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\SEWebiste_OwenAttard\bin\Repository.pdb
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\SEWebiste_OwenAttard\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\SEWebiste_OwenAttard\bin\Microsoft.AspNet.SignalR.Owin.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\SEWebiste_OwenAttard\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\SEWebiste_OwenAttard\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\SEWebiste_OwenAttard\bin\Owin.dll
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\SEWebiste_OwenAttard\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\SEWebiste_OwenAttard\bin\Microsoft.AspNet.SignalR.Owin.xml
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\SEWebiste_OwenAttard\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\Tirrax\Documents\Visual Studio 2012\Projects\SEWebSite\SEWebiste_OwenAttard\SEWebiste_OwenAttard\bin\Microsoft.Owin.Host.SystemWeb.xml

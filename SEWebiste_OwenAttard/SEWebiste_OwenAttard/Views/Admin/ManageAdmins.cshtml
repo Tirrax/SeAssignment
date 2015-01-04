@@ -48,6 +48,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
+    <li>@Html.ActionLink("User Account", "UserAccount", "Account") <span class="divider">/</span></li>
+		<li class="active"> Manage Admins</li>
+    </ul>
+
 <h3>Manage Admins</h3>	
 <hr class="soft"/>
 
