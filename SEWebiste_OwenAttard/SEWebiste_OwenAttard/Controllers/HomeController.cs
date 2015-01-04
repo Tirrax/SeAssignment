@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using BL;
 using Common;
 using Repository;
 using SEWebiste_OwenAttard.Models;
@@ -14,9 +15,18 @@ namespace SEWebiste_OwenAttard.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
-            return View();
+            List<ProductModels> model = new ProductBL().GetLatestProducts().Select(cur => new ProductModels()
+            {
+                Desc = cur.Features,
+                Name = cur.Name,
+                price = cur.Price,
+                ID =  cur.ProductID,
+                ImgPath = "/ProductImages/" + cur.Image,
+                Datelisted = cur.DateListed
+
+            }).OrderByDescending(x => x.Datelisted).ToList();
+            return View(model);
         }
 
         public ActionResult About()

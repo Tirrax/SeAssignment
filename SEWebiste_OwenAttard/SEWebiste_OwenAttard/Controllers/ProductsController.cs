@@ -247,6 +247,7 @@ namespace SEWebiste_OwenAttard.Controllers
         [HttpPost]
         public ActionResult AddProduct(ProductModels model, HttpPostedFileBase file)
         {
+            
             bool Added = false;
             try
             {
@@ -300,6 +301,7 @@ namespace SEWebiste_OwenAttard.Controllers
                 else
                 {
                     TempData["Success"] = true;
+                    notifyHub.Observable.NewProductAdded();
                 }
 
             }

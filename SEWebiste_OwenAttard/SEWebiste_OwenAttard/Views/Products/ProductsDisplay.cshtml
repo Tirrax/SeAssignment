@@ -62,7 +62,6 @@
                         <p>
                             @curModel.Desc
                         </p>
-                        <a class="btn btn-small pull-right" href="/Products/ProductDetail/@curModel.ID">View Details</a>
                         <br class="clr"/>
                     </div>
                     <div class="span3 alignR">
@@ -70,6 +69,7 @@
                             <h3> €@curModel.price</h3>
                             <a onclick="AddToCart(@curModel.ID)" class="btn btn-large btn-primary"> Add to <i class=" icon-shopping-cart"></i></a>
                         </form>
+                        <a class="btn btn-info btn-large pull-right" href="/Products/ProductDetail/@curModel.ID">View Details</a>
                     </div>
                 </div>  
                <hr class="soft"/>   

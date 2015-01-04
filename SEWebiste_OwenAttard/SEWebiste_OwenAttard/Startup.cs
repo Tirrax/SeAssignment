@@ -1,7 +1,6 @@
 ﻿using Owin;
 using Microsoft.Owin;
-[assembly: OwinStartup(typeof(SignalRChat.Startup))]
-
+[assembly: OwinStartup(typeof(SEWebiste_OwenAttard.Startup))]
 namespace SEWebiste_OwenAttard
 {
     public class Startup

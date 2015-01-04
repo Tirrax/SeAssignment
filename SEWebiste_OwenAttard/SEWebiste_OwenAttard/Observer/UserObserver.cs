@@ -14,7 +14,7 @@ namespace SEWebiste_OwenAttard.Observer
      
         public void Update(List<ProductModels> products)
         {
-            hub.sendToSpecific(ID);
+            hub.sendToSpecific(ID, products);
         }
     }
 }

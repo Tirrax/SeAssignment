@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using Common;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using SEWebiste_OwenAttard.Models;
 using SEWebiste_OwenAttard.Observer;
 
 namespace SEWebiste_OwenAttard
@@ -29,17 +30,19 @@ namespace SEWebiste_OwenAttard
             hub.Clients.All.broadcastMessage(name, message);
         }
 
-        public void sendToSpecific(string ID)
+        public void sendToSpecific(string ID, List<ProductModels> models)
         {
             // Call the broadcastMessage method to update clients            
-            hub.Clients.Client(ID).broadcastMessage();
+            hub.Clients.Client(ID).broadcastMessage(models);
         }
     }
 
-    public class NotifyHub : Hub
+    public class notifyHub : Hub
     {
 
         public static ProductObservable Observable = new ProductObservable();
+
+        private static List<UserObserver> Observers = new List<UserObserver>();
 
         public void Notify(string name, string id)
         {
@@ -50,6 +53,7 @@ namespace SEWebiste_OwenAttard
             };
 
             Observable.AddObserver(observer);
+            Observers.Add(observer);
         }
 
         public void Send(string name, string message)
@@ -61,12 +65,17 @@ namespace SEWebiste_OwenAttard
         public void sendToSpecific(string name, string message, string to)
         {
 
-            new HubHelper(this).sendToSpecific(to);
+            new HubHelper(this).sendToSpecific(to, null);
         }
 
         public override Task OnDisconnected()
         {
-            return Clients.All.disconnected();
+            UserObserver observer = Observers.SingleOrDefault(x => x.ID == Context.ConnectionId.ToString());
+            Observable.DeleteObserver(observer);
+            Observers.Remove(observer);
+
+            return null;
+
         }
 
 

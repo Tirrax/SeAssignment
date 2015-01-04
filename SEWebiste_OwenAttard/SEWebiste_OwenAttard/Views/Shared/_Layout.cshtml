@@ -126,7 +126,15 @@
                             
                             <button type="submit" id="submitButton" class="btn btn-primary">Go</button>
                         </form>
+                        <ul class="nav" style="padding-left: 40px;">
+                            <li class="dropdown">
+                                @Html.ActionLink("Account", "UserAccount", "Account", null, new {style="font-size:30px;"})
+                            </li>
+                        </ul>
+
                         <ul id="topMenu" class="nav pull-right">
+                            
+                         
                             <li class="">
                                 @{
                                     if (!Context.User.Identity.IsAuthenticated)

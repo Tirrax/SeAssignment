@@ -38,8 +38,8 @@ namespace SEWebiste_OwenAttard.Observer
         {
             var diffInSeconds = (DateTime.Now - LastSyncTime).TotalSeconds;
 
-            if (diffInSeconds < 60)
-                return;
+           // if (diffInSeconds < 60)
+             //   return;
 
 
             LatestProducts.Clear();
@@ -47,9 +47,10 @@ namespace SEWebiste_OwenAttard.Observer
             {
                 Desc = cur.Features,
                 Qty = cur.Qty,
-                ImgPath = cur.Image,
+                ImgPath = "/ProductImages/" + cur.Image,
                 Name = cur.Name,
                 price = cur.Price,
+                ID = cur.ProductID
             }).ToList();
 
             NotifyObservers();
