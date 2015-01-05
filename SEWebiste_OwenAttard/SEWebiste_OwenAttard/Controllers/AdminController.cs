@@ -16,7 +16,7 @@ namespace SEWebiste_OwenAttard.Controllers
     {
 
         //
-        public ActionResult ManageAdmins()
+        public ActionResult ManageUsers()
         {
             UsersBL user = new UsersBL();
 
@@ -29,7 +29,12 @@ namespace SEWebiste_OwenAttard.Controllers
             {
                 Email = curUser.Email,
                 Username = curUser.Username,
-                IsAdmin = curUser.Roles.Any(x => x.RoleName == "Admin")
+                IsAdmin = curUser.Roles.Any(x => x.RoleName == "Admin"),
+                FristName = curUser.FirstName,
+                LastName = curUser.LastName,
+                MobileNumber = curUser.MobileNumber,
+                Town = curUser.Town,
+                address = curUser.Address
 
             }).ToList();
 

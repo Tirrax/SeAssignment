@@ -92,5 +92,17 @@ namespace DataAccess
 
             return true;
         }
+
+        public bool UpdateUser(User user)
+        {
+
+            User old = GetUserByUsername(user.Username);
+            entity.Users.Attach(old);
+            entity.Users.ApplyCurrentValues(user);
+            int ret = entity.SaveChanges();
+
+            return ret >= 1;
+        
+        }
     }
 }

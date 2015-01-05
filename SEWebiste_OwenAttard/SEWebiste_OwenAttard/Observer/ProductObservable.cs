@@ -38,9 +38,8 @@ namespace SEWebiste_OwenAttard.Observer
         {
             var diffInSeconds = (DateTime.Now - LastSyncTime).TotalSeconds;
 
-           // if (diffInSeconds < 60)
-             //   return;
-
+            if (diffInSeconds < 60)
+                return;
 
             LatestProducts.Clear();
             LatestProducts = new ProductBL().GetLatestProducts().Select(cur => new ProductModels()

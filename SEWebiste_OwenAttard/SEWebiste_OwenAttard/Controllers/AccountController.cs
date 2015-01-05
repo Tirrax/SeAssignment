@@ -158,28 +158,7 @@ namespace SEWebiste_OwenAttard.Controllers
             return View(model);
         }
 
-        //
-        public ActionResult ManageAdmins()
-        {
-            UsersBL user = new UsersBL();
-
-            if (!user.IsUserAdmin(User.Identity.Name))
-                return RedirectToAction("Index", "Home");
-
-            List<User> listUser = user.GetAllUsersExcept(User.Identity.Name).ToList();
-
-            List<GeneralDetails> model = listUser.Select(curUser => new GeneralDetails()
-            {
-                Email = curUser.Email,
-                Username = curUser.Username,
-                IsAdmin = curUser.Roles.Any(x => x.RoleName == "Admin")
-
-            }).ToList();
-
-            return View(model);
-        }
-
-
+        
         [HttpPost]
         [AllowAnonymous]
         public JsonResult DeleteUser()
@@ -193,6 +172,45 @@ namespace SEWebiste_OwenAttard.Controllers
 
                 FormsAuthentication.SignOut();
 
+                return Json(new { ret = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ret = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult DeleteUser(string username)
+        {
+            try
+            {
+                new UsersBL().DeleteUser(username);
+
+                return Json(new { ret = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ret = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult UpdateUser(string Username, string FristName, string LastName, string Town, string address, string Email)
+        {
+            try
+            {
+                UsersBL bl = new UsersBL();
+                User user = bl.GetUserByUsername(Username);
+                user.FirstName = FristName;
+                user.LastName = LastName;
+                user.Town = Town;
+                user.Address = address;
+                user.Email = Email;
+
+                bl.UpdateUser(user);
                 return Json(new { ret = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

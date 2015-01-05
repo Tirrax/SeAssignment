@@ -26,7 +26,6 @@
 
                           $("#MSG")[0].innerHTML = txt;
                       }
-
                   }
               });
         } 
@@ -88,12 +87,10 @@
             
             <h4>Admin Actions</h4>
             <hr class="soft"/>
-            <div>@Html.ActionLink("Manage Admins", "ManageAdmins", "Admin", null, new {style="color:blue;"})</div>
+            <div>@Html.ActionLink("Manage Users", "ManageUsers", "Admin", null, new {style="color:blue;"})</div>
             <div>@Html.ActionLink("Approve Orders", "PendingOrders", "Admin", null, new {style="color:blue;"})</div>
         }
-        
-
-        
+       
         <br />
         <br />
     </div>

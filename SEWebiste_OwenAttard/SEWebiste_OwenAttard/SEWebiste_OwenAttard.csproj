@@ -539,7 +539,7 @@
     <Content Include="Views\PayPal\RedirectFromPaypal.cshtml" />
     <Content Include="Views\Account\UserAccount.cshtml" />
     <Content Include="Views\Orders\OrderHistory.cshtml" />
-    <Content Include="Views\Admin\ManageAdmins.cshtml" />
+    <Content Include="Views\Admin\ManageUsers.cshtml" />
     <Content Include="Views\Admin\PendingOrders.cshtml" />
     <Content Include="Views\Products\AddProduct.cshtml" />
     <Content Include="Views\Products\ManageProducts.cshtml" />

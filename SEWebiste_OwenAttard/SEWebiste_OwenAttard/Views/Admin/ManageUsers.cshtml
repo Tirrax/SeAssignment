@@ -1,0 +1,195 @@
+﻿@model List<SEWebiste_OwenAttard.Models.GeneralDetails>
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/jquery.jeditable.js"></script>
+<script>
+
+    function ShowMsg(Error) {
+        var txt = "";
+        if (!Error) {
+            txt = "<div  id=\"Sucess\" class=\"alert alert-success fade in\">" +
+                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>" +
+                "Action success" +
+                "</div>";
+
+
+
+        } else {
+            txt = "<div  id=\"Error\" class=\"alert alert-block alert-error fade in\">" +
+                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>" +
+                "Could not perfom action. Please check inputted data. if this problem persisits contact admin." +
+                "</div>";
+
+        }
+
+        $("#MSG")[0].innerHTML = txt;
+    }
+
+    function Delete(Username) {
+        $.ajax({
+            url: '@Url.Action("DeleteUser", "Account")',
+            type: 'POST',
+            data: {
+                'Username': Username,
+            },
+            dataType: "json",
+            success: function(data) {
+                if (data.ret) {
+                    var tableRow = $("#" + Username)[0];
+                    tableRow.remove();
+                    ShowMsg(false);
+                } else {
+                    ShowMsg(true);
+                }
+
+            }
+        });
+    }
+
+    function Update(Username) {
+        var tableRow = $("#" + Username)[0];
+
+        $.ajax({
+            url: '@Url.Action("UpdateUser", "Account")',
+            type: 'POST',
+            data: {
+                'Username': Username,
+                'FristName': tableRow.cells[2].innerText,
+                'LastName': tableRow.cells[3].innerText,
+                'address': tableRow.cells[4].innerText,
+                'Town': tableRow.cells[5].innerText,
+                'Email': tableRow.cells[1].innerText,
+            },
+            dataType: "json",
+            success: function(data) {
+                if (data.ret) {
+                    ShowMsg(false);
+                    $("#Update_" + Username).prop('disabled', true);
+                } else {
+                    ShowMsg(true);
+                }
+
+            }
+        });
+    }
+
+ 
+    function ManageAdmin(Username, IsAdmin) {
+        $.ajax({
+            url: '@Url.Action("MakeAdmins", "Admin")',
+            type: 'POST',
+            data: {
+                'Username': Username,
+                'IsAdmin' : IsAdmin
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.ret) {
+                    ShowMsg(false);
+                    $("#Admin_" + Username).prop('disabled', true);
+                }
+                else
+                {
+                    ShowMsg(true);
+                }
+
+            }
+        });
+
+    }
+
+    var oTable;
+    $(document).ready(function () {
+
+        //Initialse DataTables, with no sorting on the 'details' column
+        oTable = $('#OrderTable').dataTable({
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "aoColumnDefs": [
+                { "bSortable": false, "aTargets": [0] }
+            ],
+            "aaSorting": [[0, 'asc']]
+        });
+
+        oTable.$('td.Edit').editable(function (value, settings) { return (value); },
+        {
+            "callback": function (sValue, y) {
+                var aPos = oTable.fnGetPosition(this);
+                oTable.fnUpdate(sValue, aPos[0], aPos[1]);
+
+                var rowID = this.parentNode.getAttribute('id');
+                $("#Update_" + rowID).prop('disabled', false);
+
+            },
+            "submitdata": function (value, settings) {
+                return {
+                    "row_id": this.parentNode.getAttribute('id'),
+                    "column": oTable.fnGetPosition(this)[2]
+                };
+            },
+            "height": "30px",
+            "width": "100%"
+
+        });
+
+    });
+</script>
+
+@{
+    ViewBag.Title = "ManageAdmins";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
+    <li>@Html.ActionLink("User Account", "UserAccount", "Account") <span class="divider">/</span></li>
+		<li class="active"> Manage Users</li>
+    </ul>
+
+<h3>Manage Users</h3>	
+<hr class="soft"/>
+<div id="MSG"></div>
+<table id="OrderTable">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>Town</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    @{
+        foreach (var CurCart in Model)
+        {
+            <tr id ="@CurCart.Username">
+                <td>@CurCart.Username</td>
+                <td  class="Edit">@CurCart.Email</td>
+                <td class="Edit">@CurCart.FristName</td>
+                <td class="Edit">@CurCart.LastName</td>
+                <td class="Edit">@CurCart.address</td>    
+                <td class="Edit">@CurCart.Town</td>
+                               
+                <td id="Action_@CurCart.Username">
+      
+                        @if (!CurCart.IsAdmin)
+                        {
+                            <button id="Admin_@CurCart.Username" class="btn btn-warning" style="width: 100%; height: 30px" onclick="ManageAdmin('@CurCart.Username', true) " type="button"><i class="icon-plus icon-white"></i> Admin rights </button>
+                        }
+                        else
+                        {
+                            <button id="Admin_@CurCart.Username" class="btn btn-danger" style="width: 100%; height: 30px" onclick="ManageAdmin('@CurCart.Username', false) " type="button"><i class="icon-minus icon-white"></i> Admin rights </button>
+                        }
+                
+                        <button id="Update_@CurCart.Username" disabled style="width: 100%; height: 30px" class="btn btn-success" onclick="Update('@CurCart.Username') " type="button"><i class="icon-check icon-white"></i> Update </button>
+                    
+                    <button style="width: 100%; height: 30px" class="btn btn-danger" onclick="Delete('@CurCart.Username') " type="button"><i class="icon-remove icon-white"></i> Delete </button>
+                </td>
+            </tr>
+        }
+    }
+</table>

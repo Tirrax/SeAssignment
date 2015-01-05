@@ -106,5 +106,11 @@ namespace BL
             UserRepository userRepo = new UserRepository();
             return userRepo.DeleteUser(Username);
         }
+
+        public bool UpdateUser(User user)
+        {
+            UserRepository userRepo = new UserRepository();
+            return userRepo.UpdateUser(user);
+        }
     }
 }

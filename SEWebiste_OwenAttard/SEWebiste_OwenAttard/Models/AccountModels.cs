@@ -146,6 +146,11 @@ namespace SEWebiste_OwenAttard.Models
         public string Username { get; set; }
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
+        public string FristName{ get; set; }
+        public string LastName{ get; set; }
+        public string MobileNumber{ get; set; }
+        public string Town { get; set; }
+        public string address { get; set; }
     }
 
 }
