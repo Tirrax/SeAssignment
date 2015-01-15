@@ -49,5 +49,71 @@ namespace BL
         }
 
 
+        public int AddRole(string name)
+        {
+            if (name == string.Empty)
+                throw new ArgumentException("The parameter was empty");
+
+            if (ContainsUnicodeCharacter(name))
+                throw new ArgumentException("Parameter has non-Ascii Char");
+
+            Role role = new Role()
+            {
+                RoleName = name
+            };
+
+            return new RoleRepository().AddRole(role);
+        }
+
+        public Role GetRoleByName(string name)
+        {
+
+            if (name == string.Empty)
+                throw new ArgumentException("The parameter was empty");
+
+            if (ContainsUnicodeCharacter(name))
+                throw new ArgumentException("Parameter has non-Ascii Char");
+
+            return new RoleRepository().GetRoleByName(name);
+        }
+
+        public int UpdateRoleByName(string Oldname, string NewName)
+        {
+           
+            if (Oldname == "" || NewName == "")
+                throw new ArgumentException("The parameter was empty");
+
+            if (ContainsUnicodeCharacter(Oldname) || ContainsUnicodeCharacter(NewName))
+                throw new ArgumentException("Parameter has non-Ascii Char");
+
+            int ret = new RoleRepository().UpdateRole(Oldname, NewName);
+
+            if (ret == 0)
+                return -1;
+
+            return 1;
+        }
+
+        public int DeleteRoleByName(string name)
+        {
+            if (name == string.Empty)
+                throw new ArgumentException("The parameter was empty");
+
+            if (ContainsUnicodeCharacter(name))
+                throw new ArgumentException("Parameter has non-Ascii Char");
+
+            return new RoleRepository().DeleteRole(name);
+        }
+
+        public IQueryable<Role> GetAllRoles()
+        {
+            return new RoleRepository().GetAllRoles();
+        }
+
+        public bool ContainsUnicodeCharacter(string input)
+        {
+            string sOut = Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(input));
+            return sOut != input;
+        }
     }
 }

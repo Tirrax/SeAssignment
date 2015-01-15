@@ -70,5 +70,41 @@ namespace DataAccess
             return ret >= 1;
         }
 
+        public int AddRole(Role role)
+        {
+            entity.Roles.AddObject(role);
+            entity.SaveChanges();
+            return role.RoleID;
+        }
+
+        public Role GetRoleByName(string Name)
+        {
+            return entity.Roles.SingleOrDefault(x => x.RoleName == Name);
+        }
+
+        public int UpdateRole(string oldRole ,string NewRole)
+        {
+            Role old = GetRoleByName(oldRole);
+
+            old.RoleName = NewRole;
+            return entity.SaveChanges();
+        }
+
+        public int DeleteRole(string name)
+        {
+            Role role = GetRoleByName(name);
+
+            if (role == null)
+                return -1;
+
+            entity.Roles.DeleteObject(role);
+            return entity.SaveChanges();
+        }
+
+        public IQueryable<Role> GetAllRoles()
+        {
+            return entity.Roles;
+        }
+
     }
 }

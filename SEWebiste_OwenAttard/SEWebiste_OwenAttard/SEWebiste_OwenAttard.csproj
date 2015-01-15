@@ -273,6 +273,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="bootstrap\img\Thumbs.db" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Scripts\jquery-1.7.1.js" />
