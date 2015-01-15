@@ -59,7 +59,7 @@ namespace BL
 
             Role role = new Role()
             {
-                RoleName = name
+                //RoleName = name
             };
 
             return new RoleRepository().AddRole(role);
@@ -68,8 +68,8 @@ namespace BL
         public Role GetRoleByName(string name)
         {
 
-            if (name == string.Empty)
-                throw new ArgumentException("The parameter was empty");
+            //if (name == string.Empty)
+                //throw new ArgumentException("The parameter was empty");
 
             if (ContainsUnicodeCharacter(name))
                 throw new ArgumentException("Parameter has non-Ascii Char");
@@ -102,7 +102,7 @@ namespace BL
             if (ContainsUnicodeCharacter(name))
                 throw new ArgumentException("Parameter has non-Ascii Char");
 
-            return new RoleRepository().DeleteRole(name);
+            return new RoleRepository().DeleteRole("ABC");
         }
 
         public IQueryable<Role> GetAllRoles()
