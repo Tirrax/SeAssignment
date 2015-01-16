@@ -48,6 +48,8 @@ namespace SEWebiste_OwenAttard.Controllers
             var serializer = new JavaScriptSerializer();
             try
             {
+                if (!user.IsUserAdmin(User.Identity.Name))
+                    return RedirectToAction("Index", "Home");
 
                 bool  sucess  = new RoleBL().ChangeRole(Username, ID);
                 var resultData = new { result = "Success", ret = sucess };
@@ -79,6 +81,11 @@ namespace SEWebiste_OwenAttard.Controllers
             var serializer = new JavaScriptSerializer();
             try
             {
+                if (!user.IsUserAdmin(User.Identity.Name))
+                    return RedirectToAction("Index", "Home");
+
+                if (name.ToLower()  == "admin" || name.ToLower()  == "user")
+                    throw new Exception();
 
                 bool sucess = new RoleBL().UpdateRoleByName(OldName, name) == 1;
                 var resultData = new { result = "Success", ret = sucess };
@@ -109,6 +116,11 @@ namespace SEWebiste_OwenAttard.Controllers
             var serializer = new JavaScriptSerializer();
             try
             {
+                if (!user.IsUserAdmin(User.Identity.Name))
+                    return RedirectToAction("Index", "Home");
+
+                if (name.ToLower() == "admin" || name.ToLower() == "user")
+                    throw new Exception();
 
                 int ret = new RoleBL().DeleteRoleByName(name);
 
@@ -142,6 +154,9 @@ namespace SEWebiste_OwenAttard.Controllers
             var serializer = new JavaScriptSerializer();
             try
             {
+                if (!user.IsUserAdmin(User.Identity.Name))
+                    return RedirectToAction("Index", "Home");
+
                 int sucess = new RoleBL().AddRole(name);
                 var resultData = new { result = "Success", ret = sucess };
                 var result = new ContentResult
@@ -166,6 +181,9 @@ namespace SEWebiste_OwenAttard.Controllers
 
         public ActionResult ManageRoles()
         {
+
+            if (!user.IsUserAdmin(User.Identity.Name))
+                return RedirectToAction("Index", "Home");
 
             UsersBL user = new UsersBL();
             RoleBL role = new RoleBL();
