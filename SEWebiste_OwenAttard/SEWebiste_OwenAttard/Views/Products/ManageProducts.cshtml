@@ -55,7 +55,7 @@
                 success: function (data) {
                     if (data.ret) {
                         var tableRow = $("#" + ProdID)[0];
-                        tableRow.remove();
+                        oTable.fnDeleteRow(tableRow);
                         ShowMsg(false);
                     }
                     else {

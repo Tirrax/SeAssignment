@@ -133,7 +133,7 @@ namespace SEWebiste_OwenAttard.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { error = "There was an error whil adding to cart" }, JsonRequestBehavior.AllowGet);
+                return Json(new { error = "There was an error while adding to cart" }, JsonRequestBehavior.AllowGet);
             }
         }
 

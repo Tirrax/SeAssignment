@@ -1,0 +1,127 @@
+﻿@model  SEWebiste_OwenAttard.Models.RoleGeneral
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/jquery.jeditable.js"></script>
+<script>
+
+    function ShowMsg(Error) {
+        var txt = "";
+        if (!Error) {
+            txt = "<div  id=\"Sucess\" class=\"alert alert-success fade in\">" +
+                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>" +
+                "Action success" +
+                "</div>";
+
+
+
+        } else {
+            txt = "<div  id=\"Error\" class=\"alert alert-block alert-error fade in\">" +
+                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>" +
+                "Could not update the role." +
+                "</div>";
+
+        }
+
+        $("#MSG")[0].innerHTML = txt;
+    }
+ 
+    function ManageAdmin(Username) {
+        var ID = $("#cmb_" + Username).val();
+
+        if (ID == -1) {
+            alert("Please Choose Role");
+            return;
+        }
+            
+        $.ajax({
+            url: '@Url.Action("ChangeRole", "Admin")',
+            type: 'POST',
+            data: {
+                'Username': Username,
+                'ID' : ID
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.ret) {
+                    ShowMsg(false);                    
+                }
+                else
+                {
+                    ShowMsg(true);
+                }
+
+            }
+        });
+
+    }
+
+    var oTable;
+    $(document).ready(function () {
+
+        //Initialse DataTables, with no sorting on the 'details' column
+        oTable = $('#OrderTable').dataTable({
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "aoColumnDefs": [
+                { "bSortable": false, "aTargets": [0] }
+            ],
+            "aaSorting": [[0, 'asc']]
+        });
+
+    });
+</script>
+
+@{
+    ViewBag.Title = "ManageAdmins";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
+    <li>@Html.ActionLink("User Account", "UserAccount", "Account") <span class="divider">/</span></li>
+		<li class="active"> Manage User Roles</li>
+    </ul>
+
+<h3>Manage User Roles</h3>	
+<hr class="soft"/>
+<div id="MSG"></div>
+<table id="OrderTable">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    @{
+        foreach (var CurCart in Model.Users)
+        {
+            <tr id ="@CurCart.username">
+                <td>@CurCart.username</td>
+                <td >
+                    <select id="cmb_@CurCart.username">
+                        @for (int i = 0; i < @Model.RolesID.Count; i++)
+                        {
+                            <option value="-1" selected>Please select Role</option>
+                            if (@Model.RolesID[i] == CurCart.RoleID)
+                            {
+                                <option value="@Model.RolesID[i]" selected>@Model.RolesString[i]</option>
+                            }
+                            else
+                            {
+                                <option value="@Model.RolesID[i]" >@Model.RolesString[i]</option>
+                            }
+
+                        }
+                    </select>
+                </td>                              
+                <td>
+      
+                    <button style="width: 100%; height: 30px" class="btn btn-success" onclick="ManageAdmin('@CurCart.username') " type="button">Update Role </button>
+                </td>
+            </tr>
+        }
+    }
+</table>

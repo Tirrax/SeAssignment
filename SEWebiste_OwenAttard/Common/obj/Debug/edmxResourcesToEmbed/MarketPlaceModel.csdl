@@ -2,7 +2,6 @@
 <Schema Namespace="DBTradersMarketModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="DBTradersMarketEntities" p1:LazyLoadingEnabled="true">
     <EntitySet Name="Categories" EntityType="DBTradersMarketModel.Category" />
-    <EntitySet Name="Menus" EntityType="DBTradersMarketModel.Menu" />
     <EntitySet Name="Products" EntityType="DBTradersMarketModel.Product" />
     <EntitySet Name="Roles" EntityType="DBTradersMarketModel.Role" />
     <EntitySet Name="ShoppingCarts" EntityType="DBTradersMarketModel.ShoppingCart" />
@@ -37,10 +36,6 @@
       <End Role="Users" EntitySet="Users" />
       <End Role="Transactions" EntitySet="Transactions" />
     </AssociationSet>
-    <AssociationSet Name="RoleMenus" Association="DBTradersMarketModel.RoleMenus">
-      <End Role="Menus" EntitySet="Menus" />
-      <End Role="Roles" EntitySet="Roles" />
-    </AssociationSet>
     <AssociationSet Name="UserRoles" Association="DBTradersMarketModel.UserRoles">
       <End Role="Roles" EntitySet="Roles" />
       <End Role="Users" EntitySet="Users" />
@@ -61,17 +56,6 @@
     <NavigationProperty Name="Category1" Relationship="DBTradersMarketModel.FK_Categories_Categories" FromRole="Categories1" ToRole="Categories" />
     <NavigationProperty Name="Products" Relationship="DBTradersMarketModel.FK_Products_Categories" FromRole="Categories" ToRole="Products" />
   </EntityType>
-  <EntityType Name="Menu">
-    <Key>
-      <PropertyRef Name="MenuID" />
-    </Key>
-    <Property Name="MenuID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="ActionName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="ControllerName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="HTMLID" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="Roles" Relationship="DBTradersMarketModel.RoleMenus" FromRole="Menus" ToRole="Roles" />
-  </EntityType>
   <EntityType Name="Product">
     <Key>
       <PropertyRef Name="ProductID" />
@@ -90,7 +74,7 @@
     <Property Type="String" Name="Seller" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Type="Boolean" Name="HandleDeliveries" Nullable="false" />
     <NavigationProperty Name="User" Relationship="DBTradersMarketModel.FK_Products_Users" FromRole="Product" ToRole="User" />
-    <Property Type="Boolean" Name="Deleted" />
+    <Property Type="Boolean" Name="Deleted" Nullable="false" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -98,7 +82,6 @@
     </Key>
     <Property Name="RoleID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
     <Property Name="RoleName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="Menus" Relationship="DBTradersMarketModel.RoleMenus" FromRole="Roles" ToRole="Menus" />
     <NavigationProperty Name="Users" Relationship="DBTradersMarketModel.UserRoles" FromRole="Roles" ToRole="Users" />
   </EntityType>
   <EntityType Name="ShoppingCart">
@@ -238,10 +221,6 @@
         <PropertyRef Name="Username" />
       </Dependent>
     </ReferentialConstraint>
-  </Association>
-  <Association Name="RoleMenus">
-    <End Role="Menus" Type="DBTradersMarketModel.Menu" Multiplicity="*" />
-    <End Role="Roles" Type="DBTradersMarketModel.Role" Multiplicity="*" />
   </Association>
   <Association Name="UserRoles">
     <End Role="Roles" Type="DBTradersMarketModel.Role" Multiplicity="*" />

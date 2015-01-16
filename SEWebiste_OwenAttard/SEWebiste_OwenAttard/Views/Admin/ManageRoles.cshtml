@@ -1,0 +1,175 @@
+﻿@model  List<SEWebiste_OwenAttard.Models.RolesDisp>
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/jquery.jeditable.js"></script>
+<script>
+
+    function ShowMsg(Error) {
+        var txt = "";
+        if (!Error) {
+            txt = "<div  id=\"Sucess\" class=\"alert alert-success fade in\">" +
+                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>" +
+                "Action success" +
+                "</div>";
+
+
+
+        } else {
+            txt = "<div  id=\"Error\" class=\"alert alert-block alert-error fade in\">" +
+                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>" +
+                "Could not update the role." +
+                "</div>";
+
+        }
+
+        $("#MSG")[0].innerHTML = txt;
+    }
+ 
+    function Delete(RoleID, name) {
+        $.ajax({
+            url: '@Url.Action("DeleteRole", "Admin")',
+            type: 'POST',
+            data: {
+                'name': name,
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.ret) {
+                    var tableRow = $("#" + RoleID)[0];
+
+                    oTable.fnDeleteRow(tableRow);
+                    ShowMsg(false);
+                } else {
+                    ShowMsg(true);
+                }
+
+            }
+        });
+    }
+
+    function Update(ID, OldName) {
+        var tableRow = $("#" + ID)[0];
+
+        $.ajax({
+            url: '@Url.Action("UpdateRole", "Admin")',
+            type: 'POST',
+            data: {
+                'OldName': OldName,
+                'name': tableRow.cells[0].innerText,
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.ret) {
+                    ShowMsg(false);
+                    $("#Action_" + ID).prop('disabled', true);
+                    $("#Action_" + ID).attr("onclick", "Update(" + ID + ", '" + tableRow.cells[0].innerText + "')");;
+                    $("#Del_" + ID).attr("onclick", "Delete(" + ID + ", '" + tableRow.cells[0].innerText + "')");;
+                } else {
+                    ShowMsg(true);
+                }
+
+            }
+        });
+    }
+
+    function Add() {
+        var name = $("#ADD").val();
+
+        $.ajax({
+            url: '@Url.Action("AddRole", "Admin")',
+            type: 'POST',
+            data: {
+                'name': name,
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.ret) {
+                    ShowMsg(false);
+                    $("#Action_" + Username).prop('disabled', true);
+                } else {
+                    ShowMsg(true);
+                }
+
+            }
+        });
+    }
+
+
+    var oTable;
+    $(document).ready(function () {
+
+        //Initialse DataTables, with no sorting on the 'details' column
+        oTable = $('#OrderTable').dataTable({
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "aoColumnDefs": [
+                { "bSortable": false, "aTargets": [0] }
+            ],
+            "aaSorting": [[0, 'asc']]
+        });
+
+        oTable.$('td.Edit').editable(function (value, settings) { return (value); },
+       {
+           "callback": function (sValue, y) {
+               var aPos = oTable.fnGetPosition(this);
+               oTable.fnUpdate(sValue, aPos[0], aPos[1]);
+
+               var rowID = this.parentNode.getAttribute('id');
+               $("#Action_" + rowID).prop('disabled', false);
+
+           },
+           "submitdata": function (value, settings) {
+               return {
+                   "row_id": this.parentNode.getAttribute('id'),
+                   "column": oTable.fnGetPosition(this)[2]
+               };
+           },
+           "height": "30px",
+           "width": "100%"
+
+       });
+
+    });
+</script>
+
+@{
+    ViewBag.Title = "ManageAdmins";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Home", "index", "Home") <span class="divider">/</span></li>
+    <li>@Html.ActionLink("User Account", "UserAccount", "Account") <span class="divider">/</span></li>
+		<li class="active"> Manage Roles</li>
+    </ul>
+
+<h3>Manage Roles</h3>	
+<hr class="soft"/>
+<div id="MSG"></div>
+
+<div>
+    Role Name: <input id="ADD" placeholder = "Role name"  /> <button style=" height: 30px" class="btn btn-success" onclick="Add()" type="button"><i class="icon-plus icon-white"></i> Add Role </button>
+</div>
+<br/>
+<table id="OrderTable">
+    <thead>
+        <tr>
+            <th>Role Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    @{
+        foreach (var CurCart in Model)
+        {
+            <tr id ="@CurCart.RoleID">
+                <td class="Edit">@CurCart.Name</td>                            
+                <td>
+                    <button id="Action_@CurCart.RoleID" disabled style="width: 100%; height: 30px" class="btn btn-success" onclick="Update(@CurCart.RoleID, '@CurCart.Name') " type="button"><i class="icon-check icon-white"></i> Update </button>
+                    <button id="Del_@CurCart.RoleID" style="width: 100%; height: 30px" class="btn btn-danger" onclick="Delete(@CurCart.RoleID, '@CurCart.Name') " type="button"><i class="icon-remove icon-white"></i> Delete </button>
+                </td>
+            </tr>
+        }
+    }
+</table>

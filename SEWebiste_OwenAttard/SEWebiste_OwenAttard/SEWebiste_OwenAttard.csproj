@@ -187,7 +187,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PayPalController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
@@ -544,6 +543,8 @@
     <Content Include="Views\Admin\PendingOrders.cshtml" />
     <Content Include="Views\Products\AddProduct.cshtml" />
     <Content Include="Views\Products\ManageProducts.cshtml" />
+    <Content Include="Views\Admin\ManageUserRoles.cshtml" />
+    <Content Include="Views\Admin\ManageRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

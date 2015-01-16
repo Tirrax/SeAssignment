@@ -26,7 +26,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("DBTradersMarketModel", "FK_ShoppingCart_Users", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Common.User), "ShoppingCart", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.ShoppingCart), true)]
 [assembly: EdmRelationshipAttribute("DBTradersMarketModel", "FK_TransactionDetails_Transactions", "Transactions", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Common.Transaction), "TransactionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.TransactionDetail), true)]
 [assembly: EdmRelationshipAttribute("DBTradersMarketModel", "FK_Transactions_Users", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Common.User), "Transactions", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Transaction), true)]
-[assembly: EdmRelationshipAttribute("DBTradersMarketModel", "RoleMenus", "Menus", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Menu), "Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Role))]
 [assembly: EdmRelationshipAttribute("DBTradersMarketModel", "UserRoles", "Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Role), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.User))]
 [assembly: EdmRelationshipAttribute("DBTradersMarketModel", "FK_Products_Users", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Common.User), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Common.Product), true)]
 
@@ -95,22 +94,6 @@ namespace Common
             }
         }
         private ObjectSet<Category> _Categories;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<Menu> Menus
-        {
-            get
-            {
-                if ((_Menus == null))
-                {
-                    _Menus = base.CreateObjectSet<Menu>("Menus");
-                }
-                return _Menus;
-            }
-        }
-        private ObjectSet<Menu> _Menus;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -218,14 +201,6 @@ namespace Common
         public void AddToCategories(Category category)
         {
             base.AddObject("Categories", category);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Menus EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToMenus(Menu menu)
-        {
-            base.AddObject("Menus", menu);
         }
     
         /// <summary>
@@ -479,190 +454,6 @@ namespace Common
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="DBTradersMarketModel", Name="Menu")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Menu : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Menu object.
-        /// </summary>
-        /// <param name="menuID">Initial value of the MenuID property.</param>
-        /// <param name="name">Initial value of the Name property.</param>
-        /// <param name="actionName">Initial value of the ActionName property.</param>
-        /// <param name="controllerName">Initial value of the ControllerName property.</param>
-        public static Menu CreateMenu(global::System.Int32 menuID, global::System.String name, global::System.String actionName, global::System.String controllerName)
-        {
-            Menu menu = new Menu();
-            menu.MenuID = menuID;
-            menu.Name = name;
-            menu.ActionName = actionName;
-            menu.ControllerName = controllerName;
-            return menu;
-        }
-
-        #endregion
-
-        #region Simple Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 MenuID
-        {
-            get
-            {
-                return _MenuID;
-            }
-            set
-            {
-                if (_MenuID != value)
-                {
-                    OnMenuIDChanging(value);
-                    ReportPropertyChanging("MenuID");
-                    _MenuID = StructuralObject.SetValidValue(value, "MenuID");
-                    ReportPropertyChanged("MenuID");
-                    OnMenuIDChanged();
-                }
-            }
-        }
-        private global::System.Int32 _MenuID;
-        partial void OnMenuIDChanging(global::System.Int32 value);
-        partial void OnMenuIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                OnNameChanging(value);
-                ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false, "Name");
-                ReportPropertyChanged("Name");
-                OnNameChanged();
-            }
-        }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String ActionName
-        {
-            get
-            {
-                return _ActionName;
-            }
-            set
-            {
-                OnActionNameChanging(value);
-                ReportPropertyChanging("ActionName");
-                _ActionName = StructuralObject.SetValidValue(value, false, "ActionName");
-                ReportPropertyChanged("ActionName");
-                OnActionNameChanged();
-            }
-        }
-        private global::System.String _ActionName;
-        partial void OnActionNameChanging(global::System.String value);
-        partial void OnActionNameChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String ControllerName
-        {
-            get
-            {
-                return _ControllerName;
-            }
-            set
-            {
-                OnControllerNameChanging(value);
-                ReportPropertyChanging("ControllerName");
-                _ControllerName = StructuralObject.SetValidValue(value, false, "ControllerName");
-                ReportPropertyChanged("ControllerName");
-                OnControllerNameChanged();
-            }
-        }
-        private global::System.String _ControllerName;
-        partial void OnControllerNameChanging(global::System.String value);
-        partial void OnControllerNameChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String HTMLID
-        {
-            get
-            {
-                return _HTMLID;
-            }
-            set
-            {
-                OnHTMLIDChanging(value);
-                ReportPropertyChanging("HTMLID");
-                _HTMLID = StructuralObject.SetValidValue(value, true, "HTMLID");
-                ReportPropertyChanged("HTMLID");
-                OnHTMLIDChanged();
-            }
-        }
-        private global::System.String _HTMLID;
-        partial void OnHTMLIDChanging(global::System.String value);
-        partial void OnHTMLIDChanged();
-
-        #endregion
-
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DBTradersMarketModel", "RoleMenus", "Roles")]
-        public EntityCollection<Role> Roles
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Role>("DBTradersMarketModel.RoleMenus", "Roles");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Role>("DBTradersMarketModel.RoleMenus", "Roles", value);
-                }
-            }
-        }
-
-        #endregion
-
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="DBTradersMarketModel", Name="Product")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -683,7 +474,8 @@ namespace Common
         /// <param name="categoryID">Initial value of the CategoryID property.</param>
         /// <param name="seller">Initial value of the Seller property.</param>
         /// <param name="handleDeliveries">Initial value of the HandleDeliveries property.</param>
-        public static Product CreateProduct(global::System.Int32 productID, global::System.String name, global::System.Int32 qty, global::System.String features, global::System.String image, global::System.Decimal price, global::System.DateTime dateListed, global::System.Int32 categoryID, global::System.String seller, global::System.Boolean handleDeliveries)
+        /// <param name="deleted">Initial value of the Deleted property.</param>
+        public static Product CreateProduct(global::System.Int32 productID, global::System.String name, global::System.Int32 qty, global::System.String features, global::System.String image, global::System.Decimal price, global::System.DateTime dateListed, global::System.Int32 categoryID, global::System.String seller, global::System.Boolean handleDeliveries, global::System.Boolean deleted)
         {
             Product product = new Product();
             product.ProductID = productID;
@@ -696,6 +488,7 @@ namespace Common
             product.CategoryID = categoryID;
             product.Seller = seller;
             product.HandleDeliveries = handleDeliveries;
+            product.Deleted = deleted;
             return product;
         }
 
@@ -949,9 +742,9 @@ namespace Common
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> Deleted
+        public global::System.Boolean Deleted
         {
             get
             {
@@ -966,8 +759,8 @@ namespace Common
                 OnDeletedChanged();
             }
         }
-        private Nullable<global::System.Boolean> _Deleted;
-        partial void OnDeletedChanging(Nullable<global::System.Boolean> value);
+        private global::System.Boolean _Deleted;
+        partial void OnDeletedChanging(global::System.Boolean value);
         partial void OnDeletedChanged();
 
         #endregion
@@ -1179,28 +972,6 @@ namespace Common
         #endregion
 
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DBTradersMarketModel", "RoleMenus", "Menus")]
-        public EntityCollection<Menu> Menus
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Menu>("DBTradersMarketModel.RoleMenus", "Menus");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Menu>("DBTradersMarketModel.RoleMenus", "Menus", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.

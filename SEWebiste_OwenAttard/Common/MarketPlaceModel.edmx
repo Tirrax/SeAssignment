@@ -7,9 +7,7 @@
     <Schema Namespace="DBTradersMarketModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="DBTradersMarketModelStoreContainer">
           <EntitySet Name="Categories" EntityType="DBTradersMarketModel.Store.Categories" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Menus" EntityType="DBTradersMarketModel.Store.Menus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Products" EntityType="DBTradersMarketModel.Store.Products" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="RoleMenus" EntityType="DBTradersMarketModel.Store.RoleMenus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Roles" EntityType="DBTradersMarketModel.Store.Roles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ShoppingCart" EntityType="DBTradersMarketModel.Store.ShoppingCart" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TransactionDetails" EntityType="DBTradersMarketModel.Store.TransactionDetails" store:Type="Tables" Schema="dbo" />
@@ -19,22 +17,6 @@
           <AssociationSet Name="FK_Categories_Categories" Association="DBTradersMarketModel.Store.FK_Categories_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Categories1" EntitySet="Categories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Products_Categories" Association="DBTradersMarketModel.Store.FK_Products_Categories">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="Products" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Products_Users" Association="DBTradersMarketModel.Store.FK_Products_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Products" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoleMenus_Menus" Association="DBTradersMarketModel.Store.FK_RoleMenus_Menus">
-            <End Role="Menus" EntitySet="Menus" />
-            <End Role="RoleMenus" EntitySet="RoleMenus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoleMenus_Roles" Association="DBTradersMarketModel.Store.FK_RoleMenus_Roles">
-            <End Role="Roles" EntitySet="Roles" />
-            <End Role="RoleMenus" EntitySet="RoleMenus" />
           </AssociationSet>
           <AssociationSet Name="FK_ShoppingCart_Products" Association="DBTradersMarketModel.Store.FK_ShoppingCart_Products">
             <End Role="Products" EntitySet="Products" />
@@ -73,16 +55,6 @@
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="ParentID" Type="int" />
         </EntityType>
-        <EntityType Name="Menus">
-          <Key>
-            <PropertyRef Name="MenuID" />
-          </Key>
-          <Property Name="MenuID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="ActionName" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="ControllerName" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="HTMLID" Type="varchar" MaxLength="50" />
-        </EntityType>
         <EntityType Name="Products">
           <Key>
             <PropertyRef Name="ProductID" />
@@ -97,15 +69,7 @@
           <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="Seller" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="HandleDeliveries" Type="bit" Nullable="false" />
-          <Property Name="Deleted" Type="bit" />
-        </EntityType>
-        <EntityType Name="RoleMenus">
-          <Key>
-            <PropertyRef Name="MenuID" />
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="MenuID" Type="int" Nullable="false" />
-          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -175,56 +139,6 @@
             </Principal>
             <Dependent Role="Categories1">
               <PropertyRef Name="ParentID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Products_Categories">
-          <End Role="Categories" Type="DBTradersMarketModel.Store.Categories" Multiplicity="1" />
-          <End Role="Products" Type="DBTradersMarketModel.Store.Products" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Categories">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="Products">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Products_Users">
-          <End Role="Users" Type="DBTradersMarketModel.Store.Users" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Products" Type="DBTradersMarketModel.Store.Products" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Username" />
-            </Principal>
-            <Dependent Role="Products">
-              <PropertyRef Name="Seller" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoleMenus_Menus">
-          <End Role="Menus" Type="DBTradersMarketModel.Store.Menus" Multiplicity="1" />
-          <End Role="RoleMenus" Type="DBTradersMarketModel.Store.RoleMenus" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Menus">
-              <PropertyRef Name="MenuID" />
-            </Principal>
-            <Dependent Role="RoleMenus">
-              <PropertyRef Name="MenuID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoleMenus_Roles">
-          <End Role="Roles" Type="DBTradersMarketModel.Store.Roles" Multiplicity="1" />
-          <End Role="RoleMenus" Type="DBTradersMarketModel.Store.RoleMenus" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Roles">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="RoleMenus">
-              <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -328,7 +242,6 @@
       <Schema Namespace="DBTradersMarketModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="DBTradersMarketEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="DBTradersMarketModel.Category" />
-          <EntitySet Name="Menus" EntityType="DBTradersMarketModel.Menu" />
           <EntitySet Name="Products" EntityType="DBTradersMarketModel.Product" />
           <EntitySet Name="Roles" EntityType="DBTradersMarketModel.Role" />
           <EntitySet Name="ShoppingCarts" EntityType="DBTradersMarketModel.ShoppingCart" />
@@ -363,10 +276,6 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Transactions" EntitySet="Transactions" />
           </AssociationSet>
-          <AssociationSet Name="RoleMenus" Association="DBTradersMarketModel.RoleMenus">
-            <End Role="Menus" EntitySet="Menus" />
-            <End Role="Roles" EntitySet="Roles" />
-          </AssociationSet>
           <AssociationSet Name="UserRoles" Association="DBTradersMarketModel.UserRoles">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
@@ -387,17 +296,6 @@
           <NavigationProperty Name="Category1" Relationship="DBTradersMarketModel.FK_Categories_Categories" FromRole="Categories1" ToRole="Categories" />
           <NavigationProperty Name="Products" Relationship="DBTradersMarketModel.FK_Products_Categories" FromRole="Categories" ToRole="Products" />
         </EntityType>
-        <EntityType Name="Menu">
-          <Key>
-            <PropertyRef Name="MenuID" />
-          </Key>
-          <Property Name="MenuID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="ActionName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="ControllerName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="HTMLID" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Roles" Relationship="DBTradersMarketModel.RoleMenus" FromRole="Menus" ToRole="Roles" />
-        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="ProductID" />
@@ -416,7 +314,7 @@
           <Property Type="String" Name="Seller" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Type="Boolean" Name="HandleDeliveries" Nullable="false" />
           <NavigationProperty Name="User" Relationship="DBTradersMarketModel.FK_Products_Users" FromRole="Product" ToRole="User" />
-          <Property Type="Boolean" Name="Deleted" />
+          <Property Type="Boolean" Name="Deleted" Nullable="false" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -424,7 +322,6 @@
           </Key>
           <Property Name="RoleID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Menus" Relationship="DBTradersMarketModel.RoleMenus" FromRole="Roles" ToRole="Menus" />
           <NavigationProperty Name="Users" Relationship="DBTradersMarketModel.UserRoles" FromRole="Roles" ToRole="Users" />
         </EntityType>
         <EntityType Name="ShoppingCart">
@@ -565,10 +462,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="RoleMenus">
-          <End Role="Menus" Type="DBTradersMarketModel.Menu" Multiplicity="*" />
-          <End Role="Roles" Type="DBTradersMarketModel.Role" Multiplicity="*" />
-        </Association>
         <Association Name="UserRoles">
           <End Role="Roles" Type="DBTradersMarketModel.Role" Multiplicity="*" />
           <End Role="Users" Type="DBTradersMarketModel.User" Multiplicity="*" />
@@ -599,17 +492,6 @@
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Menus">
-            <EntityTypeMapping TypeName="DBTradersMarketModel.Menu">
-              <MappingFragment StoreEntitySet="Menus">
-                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
-                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
-                <ScalarProperty Name="HTMLID" ColumnName="HTMLID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -684,14 +566,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="RoleMenus" TypeName="DBTradersMarketModel.RoleMenus" StoreEntitySet="RoleMenus">
-            <EndProperty Name="Menus">
-              <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-            </EndProperty>
-            <EndProperty Name="Roles">
-              <ScalarProperty Name="RoleID" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <AssociationSetMapping Name="UserRoles" TypeName="DBTradersMarketModel.UserRoles" StoreEntitySet="UserRoles">
             <EndProperty Name="Roles">
               <ScalarProperty Name="RoleID" ColumnName="RoleID" />

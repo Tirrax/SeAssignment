@@ -153,4 +153,24 @@ namespace SEWebiste_OwenAttard.Models
         public string address { get; set; }
     }
 
+
+    public class RolesDisp
+    {
+        public string Name { get; set; }
+        public int RoleID { get; set; }
+    }
+
+    public class UserRolesDisp
+    {
+        public string username { get; set; }
+        public int RoleID { get; set; }
+    }
+    public class RoleGeneral
+    {
+        public List<UserRolesDisp> Users { get; set; }
+        public List<string> RolesString { get; set; }
+        public List<int> RolesID { get; set; } 
+
+    }
+
 }

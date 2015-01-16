@@ -52,20 +52,17 @@ namespace DataAccess
 
         }
 
-        public bool MakeAdmin(string username, bool IsAdmin)
+        public bool ChangeRole(string username, int ID)
         {
             User user = new UserRepository(entity).GetUserByUsername(username);
-            Role role = GetRole(1);
+            Role role = GetRole(ID);
 
-            if (IsAdmin)
+            if (user.Roles.Count != 0)
             {
-                role.Users.Add(user);
-            }
-            else
-            {
-                role.Users.Remove(user);
+                user.Roles.Clear();   
             }
 
+            user.Roles.Add(role);
             int ret  = entity.SaveChanges();
             return ret >= 1;
         }
@@ -105,6 +102,7 @@ namespace DataAccess
         {
             return entity.Roles;
         }
+
 
     }
 }

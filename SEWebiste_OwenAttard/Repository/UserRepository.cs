@@ -104,5 +104,13 @@ namespace DataAccess
             return ret >= 1;
         
         }
+
+        public void AddUserRole(int ID, string username)
+        {
+            User user = GetUserByUsername(username);
+            user.Roles.Add(new RoleRepository(entity).GetRole(1));
+            entity.SaveChanges();
+
+        }
     }
 }

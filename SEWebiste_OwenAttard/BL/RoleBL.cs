@@ -43,9 +43,9 @@ namespace BL
 
         }
 
-        public bool MakeAdmin(string username, bool IsAdmin)
+        public bool ChangeRole(string username, int ID)
         {
-            return new RoleRepository().MakeAdmin(username, IsAdmin);
+            return new RoleRepository().ChangeRole(username, ID);
         }
 
 
@@ -59,7 +59,7 @@ namespace BL
 
             Role role = new Role()
             {
-                //RoleName = name
+                RoleName = name
             };
 
             return new RoleRepository().AddRole(role);
@@ -67,9 +67,8 @@ namespace BL
 
         public Role GetRoleByName(string name)
         {
-
-            //if (name == string.Empty)
-                //throw new ArgumentException("The parameter was empty");
+            if (name == string.Empty)
+                throw new ArgumentException("The parameter was empty");
 
             if (ContainsUnicodeCharacter(name))
                 throw new ArgumentException("Parameter has non-Ascii Char");
@@ -86,12 +85,7 @@ namespace BL
             if (ContainsUnicodeCharacter(Oldname) || ContainsUnicodeCharacter(NewName))
                 throw new ArgumentException("Parameter has non-Ascii Char");
 
-            int ret = new RoleRepository().UpdateRole(Oldname, NewName);
-
-            if (ret == 0)
-                return -1;
-
-            return 1;
+            return new RoleRepository().UpdateRole(Oldname, NewName);
         }
 
         public int DeleteRoleByName(string name)
@@ -102,7 +96,7 @@ namespace BL
             if (ContainsUnicodeCharacter(name))
                 throw new ArgumentException("Parameter has non-Ascii Char");
 
-            return new RoleRepository().DeleteRole("ABC");
+            return new RoleRepository().DeleteRole(name);
         }
 
         public IQueryable<Role> GetAllRoles()

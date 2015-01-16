@@ -112,5 +112,12 @@ namespace BL
             UserRepository userRepo = new UserRepository();
             return userRepo.UpdateUser(user);
         }
+
+        public void AddUserRole(int ID, string username)
+        {
+            UserRepository userRepo = new UserRepository();
+            userRepo.AddUserRole(ID, username);
+
+        }
     }
 }

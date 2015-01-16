@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="b3cbb65d65064d81b7827ebda7794f37" Name="Diagram1">
         <EntityTypeShape EntityType="DBTradersMarketModel.Category" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBTradersMarketModel.Menu" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DBTradersMarketModel.Product" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="DBTradersMarketModel.Role" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBTradersMarketModel.ShoppingCart" Width="1.5" PointX="7.5" PointY="2.5" IsExpanded="true" />
@@ -20,7 +19,6 @@
         <AssociationConnector Association="DBTradersMarketModel.FK_ShoppingCart_Users" ManuallyRouted="false" />
         <AssociationConnector Association="DBTradersMarketModel.FK_TransactionDetails_Transactions" ManuallyRouted="false" />
         <AssociationConnector Association="DBTradersMarketModel.FK_Transactions_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="DBTradersMarketModel.RoleMenus" ManuallyRouted="false" />
         <AssociationConnector Association="DBTradersMarketModel.UserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="DBTradersMarketModel.FK_Products_Users" />
       </Diagram>

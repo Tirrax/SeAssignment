@@ -10,17 +10,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Menus">
-      <EntityTypeMapping TypeName="DBTradersMarketModel.Menu">
-        <MappingFragment StoreEntitySet="Menus">
-          <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="ActionName" ColumnName="ActionName" />
-          <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
-          <ScalarProperty Name="HTMLID" ColumnName="HTMLID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="DBTradersMarketModel.Product">
         <MappingFragment StoreEntitySet="Products">
@@ -92,14 +81,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="RoleMenus" TypeName="DBTradersMarketModel.RoleMenus" StoreEntitySet="RoleMenus">
-      <EndProperty Name="Menus">
-        <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-      </EndProperty>
-      <EndProperty Name="Roles">
-        <ScalarProperty Name="RoleID" ColumnName="RoleId" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="UserRoles" TypeName="DBTradersMarketModel.UserRoles" StoreEntitySet="UserRoles">
       <EndProperty Name="Roles">
         <ScalarProperty Name="RoleID" ColumnName="RoleID" />

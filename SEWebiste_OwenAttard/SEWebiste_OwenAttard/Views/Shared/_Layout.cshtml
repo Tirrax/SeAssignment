@@ -63,25 +63,6 @@
             });
         }
 
-        function GetMenu() {
-
-            $.ajax({
-                url: '@Url.Action("GetMenus", "Menu")',
-                type: 'POST',
-                data: {},
-                dataType: "json",
-                success: function(data) {
-                    var menu = document.getElementById("menu");
-                    if (data.ret.length != 0) {
-                        for (var i = 0; i < data.ret.length; i++) {
-                            menu.innerHTML += "<li><a id=\"" + data.ret[i].MenuID + "\" href=\"/" + data.ret[i].ControllerName + "/" + data.ret[i].ActionName + "\">" + data.ret[i].MenuName + "</a></li>";
-                        }
-                        UpdateCart();
-                    }
-                }
-            });
-        }
-
         
 
     </script>
@@ -120,16 +101,21 @@
                     </a>
                     <div class="navbar-inner">
                         <a class="brand" href="@Url.Action("Index", "Home")">
-                            <img src="~/images/logo.png" alt="Bootsshop" /></a>
-                        <form class="form-inline navbar-search" method="post" action="products.html">
-                            <input id="srchFld" class="srchTxt" type="text" style="padding-left:30px;" />
-                            
-                            <button type="submit" id="submitButton" class="btn btn-primary">Go</button>
-                        </form>
+                            <img src="~/images/logo.png" alt="Bootsshop" /></a>                       
                         <ul class="nav" style="padding-left: 40px;">
                             <li class="dropdown">
                                 @Html.ActionLink("Account", "UserAccount", "Account", null, new {style="font-size:30px;"})
+                                
                             </li>
+                            <li class="dropdown">
+                                @Html.ActionLink("Order History", "OrderHistory", "Orders", null, new {style="font-size:30px;"})
+
+                            </li>
+                            <li class="dropdown">
+                                @Html.ActionLink("Products", "ProductsDisplay", "Products", new { ID = "1" }, new {style="font-size:30px;"})
+
+                            </li>
+                            
                         </ul>
 
                         <ul id="topMenu" class="nav pull-right">

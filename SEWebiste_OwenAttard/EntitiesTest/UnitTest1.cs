@@ -21,6 +21,7 @@ namespace EntitiesTest
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddRoleTestCase1()
         {
+
             string erromsg = "";
             if (AddRole(null, ref erromsg))
                 Assert.Fail("The role was added when name was null");
@@ -330,7 +331,7 @@ namespace EntitiesTest
                 List<Role> PrevRoles = bl.GetAllRoles().ToList();
                 ret = bl.UpdateRoleByName("a", "ab");
 
-                if (ret == -1)
+                if (ret == 0)
                     Assert.Fail("Could not update the role");
 
                 Role role = PrevRoles.SingleOrDefault(x => x.RoleName == "a");
@@ -370,7 +371,7 @@ namespace EntitiesTest
                 List<Role> PrevRoles = bl.GetAllRoles().ToList();
                 ret = bl.UpdateRoleByName(txt, txt2);
 
-                if (ret == -1)
+                if (ret == 0)
                     Assert.Fail("Could not update the role");
 
                 Role role = PrevRoles.SingleOrDefault(x => x.RoleName == txt);
@@ -401,7 +402,7 @@ namespace EntitiesTest
 
                 int ret = bl.UpdateRoleByName(txt, "ab");
 
-                if (ret != -1)
+                if (ret != 0)
                     Assert.Fail("updated a row with name larger than 51");
 
             }
@@ -419,7 +420,7 @@ namespace EntitiesTest
 
                 int ret = bl.UpdateRoleByName("AØ", "ab");
 
-                if (ret != -1)
+                if (ret != 0)
                     Assert.Fail("The role was updated with non ascii characters");
             }
         }
@@ -471,7 +472,7 @@ namespace EntitiesTest
 
                 int ret = bl.AddRole("a");
 
-                if (ret == -1)
+                if (ret == 0)
                     Assert.Fail("Could not add the role");
 
                 List<Role> PrevRoles = bl.GetAllRoles().ToList();
@@ -494,7 +495,7 @@ namespace EntitiesTest
 
                 int ret = bl.UpdateRoleByName("a", "AØ");
 
-                if (ret != -1)
+                if (ret != 0)
                     Assert.Fail("The role was updated with non ascii characters");
             }
         }
@@ -555,7 +556,7 @@ namespace EntitiesTest
 
                 ret = bl.DeleteRoleByName("A");
 
-                if (ret == -1)
+                if (ret == 0)
                     Assert.Fail("Could not delete the role");
 
                 NewRoles = bl.GetAllRoles().ToList();
@@ -582,7 +583,7 @@ namespace EntitiesTest
 
                 int ret = bl.AddRole(txt);
 
-                if (ret == -1)
+                if (ret == 0)
                     Assert.Fail("Could not add the role");
 
                 List<Role> NewRoles = bl.GetAllRoles().ToList();

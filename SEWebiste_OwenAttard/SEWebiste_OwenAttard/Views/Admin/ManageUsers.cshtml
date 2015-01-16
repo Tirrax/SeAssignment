@@ -37,7 +37,7 @@
             success: function(data) {
                 if (data.ret) {
                     var tableRow = $("#" + Username)[0];
-                    tableRow.remove();
+                    oTable.fnDeleteRow(tableRow);
                     ShowMsg(false);
                 } else {
                     ShowMsg(true);
@@ -72,31 +72,6 @@
 
             }
         });
-    }
-
- 
-    function ManageAdmin(Username, IsAdmin) {
-        $.ajax({
-            url: '@Url.Action("MakeAdmins", "Admin")',
-            type: 'POST',
-            data: {
-                'Username': Username,
-                'IsAdmin' : IsAdmin
-            },
-            dataType: "json",
-            success: function (data) {
-                if (data.ret) {
-                    ShowMsg(false);
-                    $("#Admin_" + Username).prop('disabled', true);
-                }
-                else
-                {
-                    ShowMsg(true);
-                }
-
-            }
-        });
-
     }
 
     var oTable;
